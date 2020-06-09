@@ -1,0 +1,96 @@
+// ------ Bootstrap default variable override
+
+// Base font family
+$font-weight-light:           300 !default;
+$font-weight-normal:          400 !default;
+$font-weight-bold:            700 !default;
+
+$body-bg: rgb(255,255,255);
+$body-color: #212529;
+
+// Define defaults for each variable.
+$enable-caret:              true !default;
+$enable-rounded:            false !default;
+$enable-shadows:            true !default;
+$enable-gradients:          false !default;
+$enable-transitions:        true !default;
+$enable-hover-media-query:  false !default;
+$enable-grid-classes:       true !default;
+$enable-print-styles:       true !default;
+
+// Input focus
+$input-btn-focus-width:       .0rem !default;
+$input-btn-focus-box-shadow:  .0rem !default;
+
+// Transition
+$transition-base:             all .05s ease-in-out !default;
+$transition-fade:             opacity .20s linear !default;
+$transition-collapse:         height .55s ease !default;
+
+// Carousel
+$carousel-control-color:            $white !default;
+$carousel-control-width:            15% !default;
+$carousel-control-opacity:          .5 !default;
+
+$carousel-indicator-width:          30px !default;
+$carousel-indicator-height:         3px !default;
+$carousel-indicator-spacer:         3px !default;
+$carousel-indicator-active-bg:      $white !default;
+
+$carousel-caption-width:            70% !default;
+$carousel-caption-color:            $white !default;
+$carousel-control-icon-width:       20px !default;
+
+$carousel-transition:               transform .75s ease !default;
+
+// Set a specific jump point for requesting color jumps
+$theme-color-interval:      10% !default;
+
+$base-font-size:   0.94rem !default;
+$base-font-weight: 400 !default;
+$small-font-size:  $base-font-size * 0.875 !default;
+$base-line-height: 1.5 !default;
+
+$font-size-base:              .90rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                ($font-size-base * 1.25) !default;
+$font-size-md:                ($font-size-base * 1.115) !default;
+$font-size-sm:                ($font-size-base * .875) !default;
+//:400,700,900
+$font-weight-light:           400 !default;
+$font-weight-normal:          700 !default;
+$font-weight-bold:            900 !default;
+
+$font-weight-base:            $font-weight-normal !default;
+$line-height-base:            1.5 !default;
+
+$h1-font-size:                $font-size-base * 2.5 !default;
+$h2-font-size:                $font-size-base * 2 !default;
+$h3-font-size:                $font-size-base * 1.75 !default;
+$h4-font-size:                $font-size-base * 1.5 !default;
+$h5-font-size:                $font-size-base * 1.25 !default;
+$h6-font-size:                $font-size-base !default;
+
+$spacing-unit:     30px !default;
+
+// Links
+//
+// Style anchor elements.
+
+$link-decoration:           none !default;
+$link-hover-decoration:     underline !default;
+
+$text-color:       #111 !default;
+$background-color: #fdfdfd !default;
+$brand-color:      $primary !default;
+
+$grey-color:       #828282 !default;
+$grey-color-light: lighten($grey-color, 40%) !default;
+$grey-color-dark:  darken($grey-color, 25%) !default;
+
+$component-active-color: $white !default;
+$component-active-bg: $brand-color !default;
+
+// $list-group-hover-bg:               $gray-100 !default;
+// $list-group-active-color:           $component-active-color !default;
+// $list-group-active-bg:              $component-active-bg !default;
+// $list-group-active-border-color:    $list-group-active-bg !default;
