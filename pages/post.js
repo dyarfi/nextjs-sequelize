@@ -74,7 +74,7 @@ function Post({ posts }) {
 // direct database queries. See the "Technical details" section.
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
-  const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
+  const host = process.env.NODE_ENV === "production" ? "http://" : "http://";
 
   const baseApiUrl = `${host}${req.headers.host}/api`;
 
