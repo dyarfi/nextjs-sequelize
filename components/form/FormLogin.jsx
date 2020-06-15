@@ -1,10 +1,17 @@
-function FormLogin(props) {
+function FormLogin({ props }) {
+  const {
+    onSubmitHandler,
+    onChangeHandler,
+    stateFormData,
+    stateFormError,
+  } = props;
+  // console.log(onSubmitHandler);
+  // console.log(onChangeHandler);
+  // console.log(onSubmitHandler);
+  // console.log(stateFormData);
+  // console.log(stateFormError);
   return (
-    <form
-      onSubmit={props.handleSubmit}
-      className="form-login card"
-      method="POST"
-    >
+    <form className="form-login card" method="POST" onSubmit={onSubmitHandler}>
       <div className="form-group">
         <h2>Login</h2>
         <hr />
@@ -17,8 +24,13 @@ function FormLogin(props) {
           id="email"
           name="email"
           placeholder="Email"
-          defaultValue=""
+          onChange={onChangeHandler}
+          // value=""
+          value={stateFormData.email.value}
         />
+        {stateFormError.email && (
+          <span className="warning">{stateFormError.email.hint}</span>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
@@ -28,8 +40,13 @@ function FormLogin(props) {
           id="password"
           name="password"
           placeholder="Password"
-          defaultValue=""
+          onChange={onChangeHandler}
+          // value=""
+          value={stateFormData.email.password}
         />
+        {stateFormError.password && (
+          <span className="warning">{stateFormError.password.hint}</span>
+        )}
       </div>
       <div>
         <button type="submit" className="btn btn-block btn-warning">

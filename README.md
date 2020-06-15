@@ -1,12 +1,14 @@
 # Next.js with Sequelize a Full-Stack Web Application
 
-Next.js is a react framework that allows you to combine tools from Node.js ecosystem.
+Next.js is a production ready React framework that allows you to combine with other tools from Node.js ecosystem. Sequelize an easy-to-use multi SQL dialect ORM (Object Relation Mapping) for Node.js ecosystem framework application.
+
+![Sequelize](./public/sequelize.svg) ![Next.js](./public/nextjs.svg)
 
 ### A short brief about what is Sequelize, RDBMS and ORM
 
 - Sequelize
 
-  Sequelize is a Node.js module that allows you to connect RDBMS databases in your Node.js Application. Used to be combined with Express.js framework a popular Node.js framework.
+  Sequelize is a Node.js module that allows you to connect RDBMS databases in your Node.js Application. Sequelize used to be combined with Express.js framework Web Application a popular Node.js framework.
 
 - RDBMS
 
@@ -14,7 +16,7 @@ Next.js is a react framework that allows you to combine tools from Node.js ecosy
 
 - ORM
 
-  ORM (Object Relation Mapping) is a terms in database system that have a methods or functions to mapped all data in relationship between database tables. Common queries methods in ORM are `hasMany` , `belongsTo` , `hasOne` and `belongsToMany`.
+  ORM (Object Relation Mapping) is a terms in database system that have a methods or functions to mapped all data in relationship between database tables. Common queries methods in ORM are `hasMany` , `belongsTo` , `hasOne` and `belongsToMany`. Other web programming language such as PHP Laravel Framework had already adopted ORM (Eloquent).
 
 So did all of these were related? Absolutely yes! In a Full-stack Web Application these tools were heavily used to make all the system running.
 
@@ -24,13 +26,17 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
 ### Install sqlite3 and Sequelize
 
-#### Install sequelize
+#### Install sequelize-cli
 
 `npm i -g sequelize-cli` or `yarn global add sequelize-cli`
 
+#### Install sequelize
+
+`npm i sequelize` or `yarn add sequelize` and `sequelize init`
+
 #### Install sqlite3 driver
 
-`npm i sqlite` or `yarn add sqlite3`
+`npm i sqlite3` or `yarn add sqlite3`
 
 #### Install mysql driver
 
@@ -38,23 +44,27 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
 #### package.json
 
-```
+```json
 {
   "name": "nextjs-sequelize",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "mysql2": "^2.1.0",
     "next": "9.4.4",
+    "nprogress": "^0.2.0",
     "postcss-preset-env": "^6.7.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "sequelize": "^5.21.11",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "pg": "^7.0.0",
+    "pg-hstore": "^2.3.3"
   }
 }
 ```
@@ -65,7 +75,7 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
   `sequelize model:create --name users --attributes firstName:string,lastName:string,username:string,email:string,phoneNumber:string,gender:integer,status:boolean`
 
-- Users seed model
+- Users model seed
 
   `sequelize seed:generate --name users`
 
@@ -73,22 +83,66 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
   `sequelize model:create --name posts --attributes userId:integer,title:string,slug:string,content:text,status:boolean`
 
-- Posts seed model
+- Posts model seed
 
   `sequelize seed:generate --name posts`
 
-- Jobs model
-
-  `sequelize model:create --name jobs --attributes userId:integer,title:string,slug:string,content:text,emailTo:string,reportManager:string,dateLimit:date,status:boolean`
-
-- Jobs seed model
-
-  `sequelize seed:generate --name jobs`
-
-- Add Associations
+- Add Associations \* do not execute before you edit the seeder files.
 
   `sequelize migration:generate --name add-post-associate`
-  `sequelize migration:generate --name add-jobs-associate`
+
+#### Open seeders files and modify.
+
+- ./seeders/xxxxxxxxxxx-users.js
+
+```js
+"use strict";
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert("Users", [
+      {
+        username: "johndoe1",
+        firstName: "John",
+        lastName: "Doe 1",
+        email: "example1@example.com",
+        password: "password",
+        status: 1,
+        gender: "f",
+        phoneNumber: "0239239249239",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete("Users", null, {});
+  },
+};
+```
+
+- ./seeders/xxxxxxxxxxx-posts.js
+
+```js
+"use strict";
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert("Posts", [
+      {
+        title: "Title post one",
+        slug: "title-post-one",
+        userId: 1,
+        content: "Text content post one",
+        status: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete("Posts", null, {});
+  },
+};
+```
 
 #### sequelize database migration and seed commnand
 
@@ -102,8 +156,12 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
 `sequelize db:seed:undo:all`
 
-### Start the Next.js dev server and open up http://localhost:3001/
+### Start the Next.js dev server and open up http://localhost:3000/
 
 `yarn dev`
 
 ======================================================================================
+
+### Demos [https://nextjs-sequelize.now.sh/](https://nextjs-sequelize.now.sh/)
+
+All logos, trademarks and registered trademarks are the property of their respective owners.

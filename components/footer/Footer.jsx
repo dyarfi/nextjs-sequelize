@@ -5,7 +5,9 @@ export default function Footer({ copyright = "2020" }) {
         <small>
           All logos, trademarks and registered trademarks are the property of
           their respective owners.
-          <a href="https://dyarfi.github.io">dyarfi.github.io @ {copyright}</a>
+          <a href="https://github.com/dyarfi/nextjs-sequelize">
+            Source Code @ {copyright}
+          </a>
         </small>
       </div>
     </footer>

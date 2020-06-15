@@ -1,10 +1,13 @@
 function FormPost(props) {
+  const {
+    onSubmit,
+    onChange,
+    stateFormData,
+    stateFormError,
+    stateFormValid,
+  } = props;
   return (
-    <form
-      onSubmit={props.handleSubmit}
-      className="form-post card"
-      method="POST"
-    >
+    <form onSubmit={onSubmit} className="form-post card" method="POST">
       <div className="form-group">
         <h2>Form Post</h2>
         <hr />
@@ -17,19 +20,29 @@ function FormPost(props) {
           id="title"
           name="title"
           placeholder="Post Title"
-          defaultValue=""
+          // defaultValue=""
+          onChange={onChange}
+          value={stateFormData.title.value}
         />
+        {stateFormError.title && (
+          <span className="warning">{stateFormError.title.hint}</span>
+        )}
       </div>
       <div className="form-group">
-        <label htmlFor="text">Text</label>
+        <label htmlFor="text">Content</label>
         <textarea
           className="form-control"
           type="text"
           id="text"
-          name="text"
-          placeholder="Post Text"
-          defaultValue=""
-        ></textarea>
+          name="content"
+          placeholder="Post Content"
+          // defaultValue=""
+          onChange={onChange}
+          value={stateFormData.content.value}
+        />
+        {stateFormError.content && (
+          <span className="warning">{stateFormError.content.hint}</span>
+        )}
       </div>
       <div>
         <button type="submit" className="btn btn-block btn-warning">

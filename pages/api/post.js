@@ -11,6 +11,10 @@ export default async (req, res) => {
     attributes: {
       exclude: ["userId"],
     },
+    order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ["createdAt", "DESC"],
+    ],
   });
 
   res.statusCode = 200;

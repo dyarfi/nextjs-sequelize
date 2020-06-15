@@ -143,6 +143,7 @@ export default function Layout({
 
         #__next {
           position: relative;
+          overflow-x: hidden;
           z-index: 0;
         }
         #__next::before {
@@ -261,6 +262,7 @@ export default function Layout({
         footer {
           width: 100%;
           height: 80px;
+          text-align: center;
           border-top: 1px solid #eaeaea;
           display: flex;
           justify-content: center;
@@ -304,9 +306,7 @@ export default function Layout({
         }
 
         footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          display: block;
         }
 
         .account {
@@ -385,9 +385,12 @@ export default function Layout({
           max-width: 800px;
           margin-top: 1.5rem;
           margin-bottom: 1.5rem;
+          overflow: hidden;
         }
 
         .card {
+          position: relative;
+          overflow: hidden;
           margin: 1rem;
           flex-basis: 100%;
           padding: 1.5rem;
@@ -400,6 +403,40 @@ export default function Layout({
           transition: color 0.15s ease, border-color 0.15s ease,
             box-shadow 0.5s ease;
           box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.1);
+          z-index: 1;
+        }
+
+        .card::after {
+          content: "";
+          position: absolute;
+          bottom: -1.95rem;
+          right: -1.95rem;
+          width: 80px;
+          height: 80px;
+          opacity: 0.25;
+          transform: rotate(-40deg) scale(1);
+          border-radius: 50%;
+          opacity: 0.5;
+          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC");
+          background-position: top center;
+          background-repeat: repeat;
+          background-attachment: scroll;
+          z-index: -1;
+        }
+
+        .card::before {
+          content: "";
+          position: absolute;
+          top: 0rem;
+          right: 0rem;
+          width: 25px;
+          height: 25px;
+          background-color: #ffffff;
+          border: 2px solid #cdcdcd;
+          opacity: 0.25;
+          transform: rotate(-40deg) translate(2px, 2px);
+          border-radius: 50%;
+          z-index: -1;
         }
 
         .card:hover,
@@ -429,11 +466,29 @@ export default function Layout({
           height: 1em;
         }
 
-        @media (max-width: 600px) {
+        span.warning {
+          font-size: 0.82rem;
+          color: #990000;
+        }
+
+        // Extra small devices (portrait phones, less than 576px)
+        @media (max-width: 575.98px) {
           .grid {
             width: 100%;
             flex-direction: column;
           }
+        }
+        // Small devices (landscape phones, 576px and up)
+        @media (min-width: 576px) and (max-width: 767.98px) {
+        }
+        // Medium devices (tablets, 768px and up)
+        @media (min-width: 768px) and (max-width: 991.98px) {
+        }
+        // Large devices (desktops, 992px and up)
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+        }
+        // Extra large devices (large desktops, 1200px and up)
+        @media (min-width: 1200px) {
         }
       `}</style>
     </div>

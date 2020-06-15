@@ -1,9 +1,21 @@
+import React, { useEffect } from "react";
+import jwt from "jsonwebtoken";
+
 import Link from "next/link";
 
 /* components */
 import Layout from "../components/layout/Layout";
 
 function User({ users }) {
+  // useEffect(() => {
+  // var token = localStorage.token;
+  // console.log(process.env.JWT_KEY);
+  // var decoded = jwt.decode(token.replace("Bearer ", ""), { complete: true });
+  // var decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_KEY);
+  // var decoded = jwt.verify(token.replace("Bearer ", ""), "secretOrKeyJWTRandom");
+  // console.log(decoded);
+  // }, []);
+
   function renderUsers() {
     return users.data.map((user, i) => {
       return (
@@ -75,7 +87,7 @@ function User({ users }) {
 // direct database queries. See the "Technical details" section.
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
-  const host = process.env.NODE_ENV === "production" ? "http://" : "http://";
+  const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
 
   const baseApiUrl = `${host}${req.headers.host}/api`;
 

@@ -13,9 +13,6 @@ const Header = ({ props }) => {
         <Link href="/about">
           <a className="nav-item nav-link">About</a>
         </Link>
-        <Link href="/contact">
-          <a className="nav-item nav-link">Contact</a>
-        </Link>
         {/* <Link href="/forever">
           <a className="nav-item nav-link">Forever</a>
         </Link> */}

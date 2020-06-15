@@ -6,12 +6,21 @@ export default async (req, res) => {
     method,
     body,
   } = req;
+  const { username, email, password } = body;
   const userId = req.query.id;
 
   switch (method) {
     case "POST":
-      return res.json({
-        message: "ok post",
+      const newPost = await models.users.create({
+        username,
+        email,
+        password,
+        status: 1,
+      });
+
+      return res.status(200).json({
+        message: "done",
+        data: newPost,
       });
 
     case "PATCH":

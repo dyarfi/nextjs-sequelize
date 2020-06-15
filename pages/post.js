@@ -7,7 +7,7 @@ function Post({ posts }) {
   function renderPosts() {
     return posts.data.map((post, j) => {
       return (
-        <Link key={j} href={`/post/${post.slug}`}>
+        <Link key={j} href="/post/[slug]" as={`/post/${post.slug}`}>
           <a className="card">
             <h3 className="headline">{post.title}</h3>
             <div>
@@ -62,7 +62,20 @@ function Post({ posts }) {
             </Link>
             Latest Posts
           </h2>
-          <div className="grid">{posts.data.length && renderPosts()}</div>
+          <div className="grid">
+            <small
+              style={{
+                textAlign: "center",
+                marginTop: "0rem",
+                marginBottom: "1rem",
+              }}
+            >
+              <Link href="/post/add">
+                <a>+ Add Post</a>
+              </Link>
+            </small>
+            {posts.data.length && renderPosts()}
+          </div>
         </main>
       </div>
     </Layout>
@@ -74,7 +87,7 @@ function Post({ posts }) {
 // direct database queries. See the "Technical details" section.
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
-  const host = process.env.NODE_ENV === "production" ? "http://" : "http://";
+  const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
 
   const baseApiUrl = `${host}${req.headers.host}/api`;
 

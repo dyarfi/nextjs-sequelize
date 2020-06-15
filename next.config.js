@@ -1,4 +1,9 @@
 module.exports = {
+  api: {
+    bodyParser: {
+      sizeLimit: "1mb",
+    },
+  },
   env: {
     api: process.env.PORT + "api/",
   },
@@ -11,5 +16,17 @@ module.exports = {
   publicRuntimeConfig: {
     // Will be available on both server and client
     staticFolder: "/public",
+  },
+  // webpack(config, options) {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));
+    config.node = {
+      ...(config.node || {}),
+      net: "empty",
+      tls: "empty",
+      dns: "empty",
+      fs: "empty",
+    };
+    return config;
   },
 };

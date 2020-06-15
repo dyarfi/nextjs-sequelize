@@ -1,55 +1,87 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 /* components */
 import Layout from "../../components/layout/Layout";
-import FormRegister from "../../components/form/FormRegister";
+import FormPost from "../../components/form/FormPost";
 
-const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-/* register schemas */
-const FORM_DATA_REGISTER = {
-  username: {
+/* post schemas */
+const FORM_DATA_POST = {
+  title: {
     value: "",
-    label: "Username",
+    label: "Title",
     min: 10,
     max: 36,
     required: true,
     validator: {
       regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-      error: "Username fill correctly",
+      error: "Please insert valid Title",
     },
   },
-  email: {
+  content: {
     value: "",
-    label: "Email",
-    min: 10,
-    max: 36,
-    required: true,
-    validator: {
-      regEx: emailRegEx,
-      error: "Email fill correctly",
-    },
-  },
-  password: {
-    value: "",
-    label: "Password",
+    label: "Content",
     min: 6,
-    max: 36,
+    max: 1500,
     required: true,
     validator: {
       regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-      error: "Password fill correctly",
+      error: "Please insert valid Content",
     },
   },
 };
 
-function Register(props) {
+function Post(props) {
+  const router = useRouter();
+
+  const { post, url } = props;
+
   const { baseApiUrl } = props;
 
-  const [stateFormData, setStateFormData] = useState(FORM_DATA_REGISTER);
+  const [stateFormData, setStateFormData] = useState(FORM_DATA_POST);
   const [stateFormError, setStateFormError] = useState([]);
   const [stateFormValid, setStateFormValid] = useState(false);
+
+  // useEffect(() => {
+  // const jwtToken = localStorage.token;
+  // var decoded = jwt.decode(jwtToken, { complete: true });
+  // console.log(decoded);
+  // }, []);
+
+  async function onSubmitHandler(e) {
+    e.preventDefault();
+
+    let data = { ...stateFormData };
+
+    /* email */
+    data = { ...data, title: data.title.value || "" };
+    /* content */
+    data = { ...data, content: data.content.value || "" };
+
+    /* validation handler */
+    const isValid = validationHandler(stateFormData);
+
+    if (isValid) {
+      // Call an external API endpoint to get posts.
+      // You can use any data fetching library
+      const postApi = await fetch(`${baseApiUrl}/post/[slug]`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      let result = await postApi.json();
+      if (result.message && result.data && result.message === "done") {
+        router.push({
+          pathname: result.data.slug ? `/post/${result.data.slug}` : "/post",
+        });
+      }
+    }
+  }
 
   function onChangeHandler(e) {
     const { name, value } = e.currentTarget;
@@ -64,47 +96,6 @@ function Register(props) {
 
     /* validation handler */
     validationHandler(stateFormData, e);
-  }
-
-  async function onSubmitHandler(e) {
-    e.preventDefault();
-
-    let data = { ...stateFormData };
-
-    /* validation handler */
-    const isValid = validationHandler(stateFormData);
-    console.log(stateFormValid);
-
-    if (stateFormValid) {
-      /* username */
-      data = { ...data, username: data.username.value || "" };
-      /* email */
-      data = { ...data, email: data.email.value || "" };
-      /* password */
-      data = { ...data, password: data.password.value || "" };
-
-      /* validation handler */
-      const isValid = validationHandler(stateFormData);
-
-      if (isValid) {
-        // Call an external API endpoint to get posts.
-        // You can use any data fetching library
-        const loginApi = await fetch(`${baseApiUrl}/user/[id]`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        // const posts = postsApi.json();
-        let result = await loginApi.json();
-        if (result.success && result.token) {
-          localStorage.setItem("token", result.token);
-          Router.push({ pathname: "/", query: {} }, "/");
-        }
-      }
-    }
   }
 
   function validationHandler(states, e) {
@@ -127,7 +118,7 @@ function Register(props) {
         states[input].min > states[input].value.length
       ) {
         errors[input] = {
-          hint: `Min ${states[input].label} length ${states[input].min}`,
+          hint: `Field ${states[input].label} min ${states[input].min}`,
           isInvalid: true,
         };
         isValid = false;
@@ -137,7 +128,7 @@ function Register(props) {
         states[input].max < states[input].value.length
       ) {
         errors[input] = {
-          hint: `Min ${states[input].label} length ${states[input].max}`,
+          hint: `Field ${states[input].label} max ${states[input].max}`,
           isInvalid: true,
         };
         isValid = false;
@@ -172,14 +163,14 @@ function Register(props) {
           }
           if (field.value && field.min >= field.value.length) {
             errors[item[0]] = {
-              hint: `Min ${field.label} length ${field.min}`,
+              hint: `Field ${field.label} min ${field.min}`,
               isInvalid: true,
             };
             isValid = false;
           }
           if (field.value && field.max <= field.value.length) {
             errors[item[0]] = {
-              hint: `Min ${field.label} length ${field.max}`,
+              hint: `Field ${field.label} max ${field.max}`,
               isInvalid: true,
             };
             isValid = false;
@@ -205,44 +196,100 @@ function Register(props) {
     return isValid;
   }
 
-  return (
-    <Layout title="Next.js with Sequelize | Register page">
-      <div className="container">
-        <main className="content-detail">
-          <Link
-            href={{
-              pathname: "/user",
+  function renderPostForm() {
+    return (
+      <>
+        <Link
+          href={{
+            pathname: "/post",
+          }}
+        >
+          <a>&larr; Back</a>
+        </Link>
+        <FormPost
+          onSubmit={onSubmitHandler}
+          onChange={onChangeHandler}
+          stateFormData={stateFormData}
+          stateFormError={stateFormError}
+          stateFormValid={stateFormValid}
+        />
+      </>
+    );
+  }
+
+  function renderPostList() {
+    return post.data ? (
+      <div className="card">
+        <Link
+          href={{
+            pathname: "/post",
+          }}
+        >
+          <a>&larr; Back</a>
+        </Link>
+        <h2
+          className="sub-title"
+          style={{
+            display: "block",
+            marginTop: ".75rem",
+          }}
+        >
+          {post.data.title}
+          <small
+            style={{
+              display: "block",
+              fontWeight: "normal",
+              marginTop: ".75rem",
             }}
           >
-            <a>&larr; Back</a>
-          </Link>
-          <FormRegister
-            props={{
-              onSubmitHandler,
-              onChangeHandler,
-              stateFormData,
-              stateFormError,
-            }}
-          />
+            Posted: {post.data.createdAt}
+          </small>
+        </h2>
+        <p>{post.data.content}</p>
+        <hr />
+        By: {post.data.user.firstName || ""} {post.data.user.lastName || ""}
+      </div>
+    ) : (
+      <div className="container">
+        <div class="card">Data Not Found</div>
+      </div>
+    );
+  }
+
+  return (
+    <Layout title="Next.js with Sequelize | Post Page - Detail">
+      <div className="container">
+        <main className="content-detail">
+          {url === "/post/add" ? renderPostForm() : renderPostList()}
         </main>
       </div>
     </Layout>
   );
 }
 
+// This function gets called at build time on server-side.
+// It won't be called on client-side, so you can even do
+// direct database queries. See the "Technical details" section.
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
+  const url = req.url;
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
-
   const baseApiUrl = `${host}${req.headers.host}/api`;
+
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
+  const post = await postApi.json();
 
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time
   return {
     props: {
       baseApiUrl,
+      post,
+      url,
     },
   };
 }
 
-export default Register;
+export default Post;

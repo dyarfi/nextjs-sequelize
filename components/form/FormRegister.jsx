@@ -1,7 +1,14 @@
-function FormRegister(props) {
+function FormRegister({ props }) {
+  const {
+    onSubmitHandler,
+    onChangeHandler,
+    stateFormData,
+    stateFormError,
+  } = props;
+
   return (
     <form
-      onSubmit={props.handleSubmit}
+      onSubmit={onSubmitHandler}
       className="form-register card"
       method="POST"
     >
@@ -12,35 +19,52 @@ function FormRegister(props) {
       <div className="form-group">
         <label htmlFor="email">Username</label>
         <input
+          onChange={onChangeHandler}
           className="form-control"
           type="text"
           id="username"
           name="username"
           placeholder="Username"
-          defaultValue=""
+          // value=""
+          value={stateFormData.username.value}
         />
+        {stateFormError.username && (
+          <span span className="warning">
+            {stateFormError.username.hint}
+          </span>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input
+          onChange={onChangeHandler}
           className="form-control"
           type="text"
           id="email"
           name="email"
           placeholder="Email"
-          defaultValue=""
+          // value=""
+          defaultValue={stateFormData.email.value}
         />
+        {stateFormError.email && (
+          <span className="warning">{stateFormError.email.hint}</span>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
         <input
+          onChange={onChangeHandler}
           className="form-control"
           type="password"
           id="password"
           name="password"
           placeholder="Password"
-          defaultValue=""
+          // value=""
+          defaultValue={stateFormData.password.value}
         />
+        {stateFormError.password && (
+          <span className="warning">{stateFormError.password.hint}</span>
+        )}
       </div>
       <div>
         <button type="submit" className="btn btn-block btn-warning">
