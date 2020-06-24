@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+/* Middleware utils */
+import { getAppCookies } from "../../middleware/utils";
+
 /* components */
 import Layout from "../../components/layout/Layout";
 import FormPost from "../../components/form/FormPost";
@@ -35,19 +38,14 @@ const FORM_DATA_POST = {
 function Post(props) {
   const router = useRouter();
 
-  const { post, url } = props;
+  const { user, post, url, token } = props;
 
   const { baseApiUrl } = props;
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_POST);
   const [stateFormError, setStateFormError] = useState([]);
+  const [stateFormMessage, setStateFormMessage] = useState({});
   const [stateFormValid, setStateFormValid] = useState(false);
-
-  // useEffect(() => {
-  // const jwtToken = localStorage.token;
-  // var decoded = jwt.decode(jwtToken, { complete: true });
-  // console.log(decoded);
-  // }, []);
 
   async function onSubmitHandler(e) {
     e.preventDefault();
@@ -70,6 +68,7 @@ function Post(props) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          authorization: token || "",
         },
         body: JSON.stringify(data),
       });
@@ -79,6 +78,8 @@ function Post(props) {
         router.push({
           pathname: result.data.slug ? `/post/${result.data.slug}` : "/post",
         });
+      } else {
+        setStateFormMessage(result);
       }
     }
   }
@@ -212,6 +213,7 @@ function Post(props) {
           stateFormData={stateFormData}
           stateFormError={stateFormError}
           stateFormValid={stateFormValid}
+          stateFormMessage={stateFormMessage}
         />
       </>
     );
@@ -272,7 +274,9 @@ function Post(props) {
 // direct database queries. See the "Technical details" section.
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
-  const url = req.url;
+  const { url } = req;
+  const token = getAppCookies(req).token || "";
+
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
   const baseApiUrl = `${host}${req.headers.host}/api`;
 
@@ -288,6 +292,7 @@ export async function getServerSideProps(context) {
       baseApiUrl,
       post,
       url,
+      token,
     },
   };
 }

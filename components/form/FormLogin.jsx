@@ -4,6 +4,7 @@ function FormLogin({ props }) {
     onChangeHandler,
     stateFormData,
     stateFormError,
+    stateFormMessage,
   } = props;
   // console.log(onSubmitHandler);
   // console.log(onChangeHandler);
@@ -15,6 +16,9 @@ function FormLogin({ props }) {
       <div className="form-group">
         <h2>Login</h2>
         <hr />
+        {stateFormMessage.status === "error" && (
+          <h4 className="warning text-center">{stateFormMessage.error}</h4>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="email">Email</label>

@@ -2,8 +2,10 @@ import Link from "next/link";
 
 /* components */
 import Layout from "../components/layout/Layout";
+import UserNav from "../components/navigation/User";
 
-export default function Home() {
+export default function Home(props) {
+  const { user } = props;
   return (
     <Layout title="Next.js with Sequelize | Home Page">
       <div className="container">
@@ -20,17 +22,7 @@ export default function Home() {
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
-          <p className="account">
-            Have an Account?
-            <Link href={{ pathname: "/user/login" }}>
-              <a>Login</a>
-            </Link>
-            or
-            <Link href={{ pathname: "/user/register" }}>
-              <a>Register</a>
-            </Link>
-          </p>
-
+          <UserNav props={{ user: user }} />
           <div className="grid">
             <Link href="/user">
               <a className="card">
@@ -50,4 +42,15 @@ export default function Home() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { query, req, res } = context;
+
+  // Call an external API endpoint to get posts.
+  // By returning { props: posts }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {},
+  };
 }

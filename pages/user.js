@@ -1,41 +1,36 @@
-import React, { useEffect } from "react";
-import jwt from "jsonwebtoken";
+import React from "react";
 
 import Link from "next/link";
+import Router from "next/router";
 
 /* components */
 import Layout from "../components/layout/Layout";
+import UserNav from "../components/navigation/User";
 
-function User({ users }) {
-  // useEffect(() => {
-  // var token = localStorage.token;
-  // console.log(process.env.JWT_KEY);
-  // var decoded = jwt.decode(token.replace("Bearer ", ""), { complete: true });
-  // var decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_KEY);
-  // var decoded = jwt.verify(token.replace("Bearer ", ""), "secretOrKeyJWTRandom");
-  // console.log(decoded);
-  // }, []);
+function User(props) {
+  const { url, user, users } = props;
 
-  function renderUsers() {
+  function renderUsers(users) {
     return users.data.map((user, i) => {
       return (
-        <Link
-          key={i}
-          href={{
-            pathname: `/user/${user.id}`,
-            query: {},
-          }}
-        >
+        <Link key={i} href="/user/[slug]" as={`/user/${user.id}`}>
           <a className="card">
-            <h3 className="headline">
-              {user.firstName} {user.lastName}
-            </h3>
+            <h3 className="headline">{user.username}</h3>
             <p>{user.email}</p>
             <small>Posts: {user.posts.length}</small>{" "}
             <small>Jobs: {user.jobs.length}</small>
           </a>
         </Link>
       );
+    });
+  }
+
+  async function loadMoreClick(e) {
+    await Router.push({
+      pathname: "/user",
+      query: {
+        nextPage: users.nextPage ? users.nextPage : 5,
+      },
     });
   }
 
@@ -55,16 +50,7 @@ function User({ users }) {
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
-          <p className="account">
-            Have an Account?
-            <Link href={{ pathname: "/user/login" }}>
-              <a>Login</a>
-            </Link>
-            or
-            <Link href={{ pathname: "/user/register" }}>
-              <a>Register</a>
-            </Link>
-          </p>
+          <UserNav props={{ user: user }} />
           <h2>
             <Link
               href={{
@@ -75,7 +61,47 @@ function User({ users }) {
             </Link>
             Recent Users
           </h2>
-          <div className="grid">{users.data.length && renderUsers()}</div>
+          <div className="grid">
+            {users.status === "success" ? (
+              users.data.length && renderUsers(users)
+            ) : (
+              <h3
+                style={{
+                  textAlign: "center",
+                  marginTop: "0rem",
+                  marginBottom: "1rem",
+                  display: "inline-block",
+                  width: "100%",
+                }}
+              >
+                {users.error}
+              </h3>
+            )}
+            {/* {users.data.length && (
+              <>
+                {renderUsers(users)}
+                {users.nextPage < users.total &&
+                users.data.length !== users.total ? (
+                  <button onClick={loadMoreClick}>Next</button>
+                ) : (
+                  <span className="span-info">no page left</span>
+                )}
+                <style jsx>
+                  {`
+                    button,
+                    .span-info {
+                      margin: 1rem auto;
+                      padding: 0.5rem 1rem;
+                      border: 1px solid #cecece;
+                      background-color: #fffcfc;
+                      color: #7b7b7b;
+                      outline: none;
+                    }
+                  `}
+                </style>
+              </>
+            )} */}
+          </div>
         </main>
       </div>
     </Layout>
@@ -86,14 +112,20 @@ function User({ users }) {
 // It won't be called on client-side, so you can even do
 // direct database queries. See the "Technical details" section.
 export async function getServerSideProps(context) {
-  const { query, req, res, headers } = context;
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
+
+  const { query, req, res } = context;
+  const { nextPage } = query;
+  const { url } = req;
+  const referer = req.headers.referer || "";
+
+  const nextPageUrl = !isNaN(nextPage) ? `?nextPage=${nextPage}` : "";
 
   const baseApiUrl = `${host}${req.headers.host}/api`;
 
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const usersApi = await fetch(`${baseApiUrl}/user`);
+  const usersApi = await fetch(`${baseApiUrl}/user${nextPageUrl}`);
   const users = await usersApi.json();
 
   // By returning { props: posts }, the Blog component
@@ -101,6 +133,8 @@ export async function getServerSideProps(context) {
   return {
     props: {
       users,
+      referer,
+      url,
     },
   };
 }

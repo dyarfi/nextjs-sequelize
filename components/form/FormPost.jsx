@@ -5,12 +5,16 @@ function FormPost(props) {
     stateFormData,
     stateFormError,
     stateFormValid,
+    stateFormMessage,
   } = props;
   return (
     <form onSubmit={onSubmit} className="form-post card" method="POST">
       <div className="form-group">
         <h2>Form Post</h2>
         <hr />
+        {stateFormMessage.status === "error" && (
+          <h4 className="warning text-center">{stateFormMessage.error}</h4>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="title">Title</label>

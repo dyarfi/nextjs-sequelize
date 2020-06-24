@@ -2,6 +2,8 @@ import Head from "next/head";
 import Router from "next/router";
 import NProgress from "nprogress";
 
+import { getAppCookies, verifyToken } from "../middleware/utils";
+
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", (url) => {
   NProgress.start();
@@ -17,7 +19,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // export default MyApp;
 
-export default function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -28,3 +30,24 @@ export default function App({ Component, pageProps }) {
     </>
   );
 }
+
+MyApp.getInitialProps = async ({ Component, ctx }) => {
+  const {
+    store,
+    isServer,
+    req,
+    query: { amp },
+  } = ctx;
+
+  const { token } = getAppCookies(req);
+  const user = token && verifyToken(token.replace("Bearer ", ""));
+
+  let pageProps = { user };
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps({ ctx });
+  }
+
+  return { pageProps };
+};
+
+export default MyApp;

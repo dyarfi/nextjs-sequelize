@@ -336,6 +336,10 @@ export default function Layout({
           text-decoration: none;
         }
 
+        span {
+          font-size: 0.82rem;
+        }
+
         .title a,
         .sub-title a {
           color: #0070f3;
@@ -466,9 +470,12 @@ export default function Layout({
           height: 1em;
         }
 
-        span.warning {
-          font-size: 0.82rem;
+        .warning {
           color: #990000;
+        }
+
+        .text-center {
+          text-align: center;
         }
 
         // Extra small devices (portrait phones, less than 576px)

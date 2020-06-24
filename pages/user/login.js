@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import jwt from "jsonwebtoken";
+import Cookies from "js-cookie";
 
 /* components */
 import Layout from "../../components/layout/Layout";
@@ -35,17 +36,13 @@ const FORM_DATA_LOGIN = {
   },
 };
 
-// const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
-// const baseApiUrl = `${host}${req.headers.host}/api/login`;
-
-// jwt.decode
-
 function Login(props) {
-  const { baseApiUrl } = props;
+  const { baseApiUrl, referer } = props;
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_LOGIN);
   const [stateFormError, setStateFormError] = useState([]);
   const [stateFormValid, setStateFormValid] = useState(false);
+  const [stateFormMessage, setStateFormMessage] = useState({});
 
   useEffect(() => {
     const jwtToken = localStorage.token;
@@ -86,7 +83,7 @@ function Login(props) {
       /* dispatchLogin(data); */
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
-      const loginApi = await fetch(`${baseApiUrl}/user/login`, {
+      const loginApi = await fetch(`${baseApiUrl}/user/auth`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -94,11 +91,12 @@ function Login(props) {
         },
         body: JSON.stringify(data),
       });
-      // const posts = postsApi.json();
       let result = await loginApi.json();
       if (result.success && result.token) {
-        localStorage.setItem("token", result.token);
-        Router.push({ pathname: "/", query: {} }, "/");
+        Cookies.set("token", result.token);
+        window.location.href = referer;
+      } else {
+        setStateFormMessage(result);
       }
     }
   }
@@ -218,6 +216,7 @@ function Login(props) {
               onChangeHandler,
               stateFormData,
               stateFormError,
+              stateFormMessage,
             }}
           />
         </main>
@@ -228,6 +227,7 @@ function Login(props) {
 
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
+  const referer = req.headers.referer || "";
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
 
   const baseApiUrl = `${host}${req.headers.host}/api`;
@@ -237,6 +237,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       baseApiUrl,
+      referer,
     },
   };
 }
