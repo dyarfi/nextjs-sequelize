@@ -16,10 +16,10 @@ ALTER TABLE users
   ADD PRIMARY KEY (id);
 
 INSERT INTO users (id, firstName, lastName, username, email, password, phoneNumber, gender, status, createdAt, updatedAt) VALUES
-(1, 'John', 'Doe 1', 'johndoe1', 'example1@example.com', 'password', '0239239249239', 'f', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05'),
-(2, 'Jane', 'Doe 2', 'janedoe', 'example2@example.com', 'password', '0239239249239', 'm', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05'),
-(3, 'John', 'Doe 3', 'johndoe3', 'example3@example.com', 'password', '0239239249239', 'f', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05'),
-(4, 'John', 'Doe 4', 'johndoe4', 'example4@example.com', 'password', '0239239249239', 'm', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05');
+(1, 'John', 'Doe 1', 'johndoe1', 'example1@example.com', '$2y$10$mj1OMFvVmGAR4gEEXZGtA.R5wYWBZTis72hSXzpxEs.QoXT3ifKSq', '0239239249239', 'f', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05'),
+(2, 'Jane', 'Doe 2', 'janedoe', 'example2@example.com', '$2y$10$mj1OMFvVmGAR4gEEXZGtA.R5wYWBZTis72hSXzpxEs.QoXT3ifKSq', '0239239249239', 'm', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05'),
+(3, 'John', 'Doe 3', 'johndoe3', 'example3@example.com', '$2y$10$mj1OMFvVmGAR4gEEXZGtA.R5wYWBZTis72hSXzpxEs.QoXT3ifKSq', '0239239249239', 'f', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05'),
+(4, 'John', 'Doe 4', 'johndoe4', 'example4@example.com', '$2y$10$mj1OMFvVmGAR4gEEXZGtA.R5wYWBZTis72hSXzpxEs.QoXT3ifKSq', '0239239249239', 'm', 1, '2020-06-13 04:46:05', '2020-06-13 04:46:05');
 
 CREATE TABLE jobs (
   id integer NOT NULL,

@@ -44,12 +44,6 @@ function Login(props) {
   const [stateFormValid, setStateFormValid] = useState(false);
   const [stateFormMessage, setStateFormMessage] = useState({});
 
-  useEffect(() => {
-    const jwtToken = localStorage.token;
-    var decoded = jwt.decode(jwtToken, { complete: true });
-    console.log(decoded);
-  }, []);
-
   function onChangeHandler(e) {
     const { name, value } = e.currentTarget;
 
@@ -64,6 +58,7 @@ function Login(props) {
     /* validation handler */
     validationHandler(stateFormData, e);
   }
+  console.log(referer);
 
   async function onSubmitHandler(e) {
     e.preventDefault();
@@ -79,8 +74,6 @@ function Login(props) {
     const isValid = validationHandler(stateFormData);
 
     if (isValid) {
-      // console.log(data);
-      /* dispatchLogin(data); */
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
       const loginApi = await fetch(`${baseApiUrl}/user/auth`, {
@@ -94,7 +87,7 @@ function Login(props) {
       let result = await loginApi.json();
       if (result.success && result.token) {
         Cookies.set("token", result.token);
-        window.location.href = referer;
+        window.location.href = window.location.href = referer ? referer : "/";
       } else {
         setStateFormMessage(result);
       }
