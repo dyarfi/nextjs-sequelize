@@ -50,6 +50,7 @@ function Register(props) {
   const [stateFormData, setStateFormData] = useState(FORM_DATA_REGISTER);
   const [stateFormError, setStateFormError] = useState([]);
   const [stateFormValid, setStateFormValid] = useState(false);
+  const [stateFormMessage, setStateFormMessage] = useState({});
 
   function onChangeHandler(e) {
     const { name, value } = e.currentTarget;
@@ -89,7 +90,7 @@ function Register(props) {
       if (isValid) {
         // Call an external API endpoint to get posts.
         // You can use any data fetching library
-        const loginApi = await fetch(`${baseApiUrl}/user/[id]`, {
+        const loginApi = await fetch(`${baseApiUrl}/user`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -222,6 +223,7 @@ function Register(props) {
               onChangeHandler,
               stateFormData,
               stateFormError,
+              stateFormMessage,
             }}
           />
         </main>
@@ -232,6 +234,7 @@ function Register(props) {
 
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
+  const referer = req.headers.referer || "";
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
 
   const baseApiUrl = `${host}${req.headers.host}/api`;
@@ -241,6 +244,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       baseApiUrl,
+      referer,
     },
   };
 }

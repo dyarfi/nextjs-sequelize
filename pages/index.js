@@ -2,8 +2,10 @@ import Link from "next/link";
 
 /* components */
 import Layout from "../components/layout/Layout";
+import UserNav from "../components/navigation/User";
 
-export default function Home() {
+export default function Home(props) {
+  const { user } = props;
   return (
     <Layout title="Next.js with Sequelize | Home Page">
       <div className="container">
@@ -20,17 +22,7 @@ export default function Home() {
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
-          <p className="account">
-            Have an Account?
-            <Link href={{ pathname: "/user/login" }}>
-              <a>Login</a>
-            </Link>
-            or
-            <Link href={{ pathname: "/user/register" }}>
-              <a>Register</a>
-            </Link>
-          </p>
-
+          <UserNav props={{ user: user }} />
           <div className="grid">
             <Link href="/user">
               <a className="card">
@@ -45,9 +37,45 @@ export default function Home() {
                 <p>Post collection from users of this web application.</p>
               </a>
             </Link>
+
+            <Link href="/job">
+              <a className="card">
+                <h3>Jobs &rarr;</h3>
+                <p>Job Post collection from users of this web application.</p>
+              </a>
+            </Link>
           </div>
         </main>
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
+  const { query, req, res } = context;
+  // console.log(context);
+
+  // const { nextPage } = query;
+  // const { token } = getAppCookies(req);
+
+  // const nextPageUrl = !isNaN(nextPage) ? `?nextPage=${nextPage}` : "";
+  // const baseApiUrl = `${host}${req.headers.host}/api`;
+
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  // const jobsApi = await fetch(`${baseApiUrl}/job${nextPageUrl}`, {
+  //   headers: {
+  //     authorization: token || "",
+  //   },
+  // });
+  // const jobs = await jobsApi.json();
+
+  // By returning { props: posts }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      // jobs,
+    },
+  };
 }

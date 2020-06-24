@@ -9,24 +9,27 @@ import { getAppCookies } from "../middleware/utils";
 import Layout from "../components/layout/Layout";
 import UserNav from "../components/navigation/User";
 
-function Post(props) {
-  const { user, posts } = props;
+function Job(props) {
+  const { user, jobs } = props;
 
-  function renderPosts(posts) {
-    return posts.data.map((post, j) => {
+  function renderJobs() {
+    return jobs.data.map((job, j) => {
       return (
-        <Link key={j} href="/post/[slug]" as={`/post/${post.slug}`}>
+        <Link key={j} href="/job/[slug]" as={`/job/${job.slug}`}>
           <a className="card">
-            <h3 className="headline">{post.title}</h3>
+            <h3 className="headline">{job.title}</h3>
             <div>
-              <small>{post.createdAt}</small>
-            </div>
-            <div>
-              <small>
-                Post by: {post.user.firstName || ""} {post.user.lastName || ""}
+              <small>Posted: {job.createdAt}</small>
+              <small style={{ float: "right" }}>
+                Job by: {job.user.firstName || ""} {job.user.lastName || ""}
               </small>
             </div>
-            <p>{post.content}</p>
+            {/* <p className="description">{job.content}</p> */}
+            <small style={{ display: "block" }}>Email: {job.emailTo}</small>
+            <small style={{ display: "block" }}>
+              Report to: {job.reportManager}
+            </small>
+            <small style={{ display: "block" }}>Limit :{job.dateLimit}</small>
           </a>
         </Link>
       );
@@ -35,9 +38,9 @@ function Post(props) {
 
   async function loadMoreClick(e) {
     await Router.push({
-      pathname: "/post",
+      pathname: "/job",
       query: {
-        nextPage: posts.nextPage ? posts.nextPage : 5,
+        nextPage: jobs.nextPage ? jobs.nextPage : 5,
       },
     });
   }
@@ -60,7 +63,6 @@ function Post(props) {
           </p>
           <UserNav props={{ user: user }} />
           <h2>
-            {" "}
             <Link
               href={{
                 pathname: "/",
@@ -68,7 +70,7 @@ function Post(props) {
             >
               <a>&larr; </a>
             </Link>
-            Latest Posts
+            Latest Jobs
           </h2>
           <div className="grid">
             <small
@@ -78,12 +80,12 @@ function Post(props) {
                 marginBottom: "1rem",
               }}
             >
-              <Link href="/post/add">
-                <a>+ Add Post</a>
+              <Link href="/job/add">
+                <a>+ Add Job</a>
               </Link>
             </small>
-            {posts.status === "success" ? (
-              posts.data.length && renderPosts(posts)
+            {jobs.status === "success" ? (
+              jobs.data.length && renderJobs()
             ) : (
               <h3
                 style={{
@@ -94,14 +96,14 @@ function Post(props) {
                   width: "100%",
                 }}
               >
-                {posts.error}
+                {jobs.error}
               </h3>
             )}
 
-            {posts.status === "success" && (
+            {jobs.status === "success" && (
               <>
-                {posts.nextPage < posts.total &&
-                posts.data.length !== posts.total ? (
+                {jobs.nextPage < jobs.total &&
+                jobs.data.length !== jobs.total ? (
                   <button onClick={loadMoreClick}>Next</button>
                 ) : (
                   <span className="span-info">no page left</span>
@@ -136,7 +138,6 @@ export async function getServerSideProps(context) {
   const { query, req, res } = context;
   const { nextPage } = query;
   const token = getAppCookies(req).token || "";
-
   const referer = req.headers.referer || "";
 
   const nextPageUrl = !isNaN(nextPage) ? `?nextPage=${nextPage}` : "";
@@ -144,22 +145,22 @@ export async function getServerSideProps(context) {
 
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const postsApi = await fetch(`${baseApiUrl}/post${nextPageUrl}`, {
+  const jobsApi = await fetch(`${baseApiUrl}/job${nextPageUrl}`, {
     headers: {
       authorization: token || "",
     },
   });
-  const posts = await postsApi.json();
+  const jobs = await jobsApi.json();
 
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time
   return {
     props: {
-      posts,
+      jobs,
       referer,
       token,
     },
   };
 }
 
-export default Post;
+export default Job;

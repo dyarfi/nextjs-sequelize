@@ -1,43 +1,59 @@
 import nextConnect from "next-connect";
-import middleware from "../../../middleware/auth";
 const models = require("../../../db/models/index");
+import middleware from "../../../middleware/auth";
 
 const handler = nextConnect()
   // Middleware
   .use(middleware)
   // Get method
   .get(async (req, res) => {
-    const { slug } = req.query;
-    const post = await models.posts.findOne({
-      where: {
-        slug: slug,
-      },
+    const {
+      query: { nextPage },
+      method,
+      body,
+    } = req;
+
+    const users = await models.users.findAndCountAll({
       include: [
         {
-          model: models.users,
-          as: "user",
+          model: models.posts,
+          as: "posts",
+        },
+        {
+          model: models.jobs,
+          as: "jobs",
         },
       ],
       order: [
         // Will escape title and validate DESC against a list of valid direction parameters
-        ["createdAt", "ASC"],
+        ["id", "DESC"],
       ],
+      offset: nextPage ? +nextPage : 0,
+      limit: 5,
     });
+
     res.statusCode = 200;
-    return res.json({ status: "success", data: post });
+    res.json({
+      status: "success",
+      data: users.rows,
+      total: users.count,
+      nextPage: +nextPage + 5,
+    });
   })
   // Post method
   .post(async (req, res) => {
     const { body } = req;
-    const { title, content } = body;
-    const newPost = await models.posts.create({
-      title,
-      content,
+    const { slug } = req.query;
+    const { username, email, password } = body;
+    const userId = slug;
+    const newPost = await models.users.create({
+      username,
+      email,
+      password,
       status: 1,
-      userId: 1,
     });
-
     return res.status(200).json({
+      status: "success",
       message: "done",
       data: newPost,
     });

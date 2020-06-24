@@ -1,9 +1,9 @@
-import passport from "passport";
-import models from "../../../models/index";
+// import passport from "passport";
+import models from "../../../db/models/index";
 import nextConnect from "next-connect";
 import bcrypt from "bcryptjs";
-// var bcrypt = require("bycryptjs");
 import jwt from "jsonwebtoken";
+// var bcrypt = require("bycryptjs");
 
 const KEY = process.env.JWT_KEY;
 
@@ -19,13 +19,12 @@ const KEY = process.env.JWT_KEY;
 //   })
 
 // passport.use(localStrategy)
-
 // console.log(passportMiddleware);
 
 const handler = nextConnect()
-  .use(passport.initialize())
+  // .use()
   .get((req, res) => {
-    res.send("Hello world");
+    /* res.send("method get"); */
   })
   .post(async (req, res) => {
     /* Get Post Data */
@@ -79,10 +78,10 @@ const handler = nextConnect()
     });
   })
   .put(async (req, res) => {
-    res.end("async/await is also supported!");
+    /* res.end("method - put"); */
   })
   .patch(async (req, res) => {
-    throw new Error("Throws me around! Error can be caught and handled.");
+    /* throw new Error("method - patch"); */
   });
 
 export default handler;

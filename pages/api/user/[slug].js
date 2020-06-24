@@ -1,4 +1,4 @@
-const models = require("../../../models/index");
+const models = require("../../../db/models/index");
 
 export default async (req, res) => {
   const {
@@ -6,28 +6,20 @@ export default async (req, res) => {
     method,
     body,
   } = req;
+  const { slug } = req.query;
   const { username, email, password } = body;
-  const userId = req.query.id;
+  const userId = slug;
 
   switch (method) {
     case "POST":
-      const newPost = await models.users.create({
-        username,
-        email,
-        password,
-        status: 1,
-      });
-
       return res.status(200).json({
         message: "done",
-        data: newPost,
+        data: {},
       });
-
     case "PATCH":
       return res.json({
         message: "ok post",
       });
-
     case "GET":
       const user = await models.users.findOne({
         where: {
@@ -44,10 +36,8 @@ export default async (req, res) => {
           },
         ],
       });
-
       res.statusCode = 200;
       return res.json({ data: user });
-
     default:
       break;
   }
