@@ -16,7 +16,10 @@ const handler = nextConnect()
     const { email, password } = req.body;
     /* Any how email or password is blank */
     if (!email || !password) {
-      return res.status(400).json("Request missing username or password");
+      return res.status(400).json({
+        status: "error",
+        error: "Request missing username or password",
+      });
     }
     /* Check user in database */
     const user = await models.users.findOne({
@@ -26,7 +29,10 @@ const handler = nextConnect()
     });
     /* Check if exists */
     if (!user) {
-      res.status(400).json({ userNotFound: "User Not Found" });
+      res.status(400).json({
+        status: "error",
+        error: "User Not Found",
+      });
     }
     /* Define variables */
     const dataUser = user.toJSON();

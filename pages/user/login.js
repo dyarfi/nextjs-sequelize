@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Router from "next/router";
-import jwt from "jsonwebtoken";
 import Cookies from "js-cookie";
 
 /* components */
@@ -58,7 +56,6 @@ function Login(props) {
     /* validation handler */
     validationHandler(stateFormData, e);
   }
-  console.log(referer);
 
   async function onSubmitHandler(e) {
     e.preventDefault();
@@ -87,7 +84,7 @@ function Login(props) {
       let result = await loginApi.json();
       if (result.success && result.token) {
         Cookies.set("token", result.token);
-        window.location.href = window.location.href = referer ? referer : "/";
+        window.location.href = referer ? referer : "/";
       } else {
         setStateFormMessage(result);
       }
