@@ -6,13 +6,9 @@ import Router from "next/router";
 /* components */
 import Layout from "../../components/layout/Layout";
 
-/* forms */
-import FormLogin from "../../components/form/FormLogin";
-import FormRegister from "../../components/form/FormRegister";
-
 function User(props) {
   const { user, url, referer } = props;
-  const [titlePage,setTitlePage] = useState('Profile');
+  const [titlePage, setTitlePage] = useState("Profile");
 
   useEffect(() => {
     if (url === "/user/logout") {
@@ -20,12 +16,12 @@ function User(props) {
       Router.push({ pathname: "/", query: {} }, "/");
     }
     if (url === "/user/login") {
-      setTitlePage('Login');
+      setTitlePage("Login");
     }
     if (url === "/user/register") {
-      setTitlePage('Register');
+      setTitlePage("Register");
     }
-  }, [url]);
+  }, []);
 
   return (
     <Layout title={`Next.js with Sequelize | User Page - ${titlePage}`}>
@@ -123,16 +119,18 @@ function User(props) {
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
   const { url } = req;
-  const referer = req.headers.referer || '';
+  const referer = req.headers.referer || "";
 
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
   const baseApiUrl = `${host}${req.headers.host}/api`;
 
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const userApi = await fetch(`${baseApiUrl}/user/${query.slug}`);
-  const user = await userApi.json();
-
+  let user = {};
+  if (url !== "/user/logout") {
+    const userApi = await fetch(`${baseApiUrl}/user/${query.slug}`);
+    user = await userApi.json();
+  }
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time
   return {

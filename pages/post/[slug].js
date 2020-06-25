@@ -282,8 +282,11 @@ export async function getServerSideProps(context) {
 
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
-  const post = await postApi.json();
+  let post = {};
+  if (url !== "/post/add") {
+    const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
+    post = await postApi.json();
+  }
 
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time

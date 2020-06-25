@@ -7,10 +7,7 @@ const middleware = nextConnect();
 /* middleware.use(database).use(session).use(passport.initialize()).use(passport.session()); */
 
 /* Set restricted public access / put any api access that is restricted in here */
-const restricted = [
-  "/api/post/[slug]",
-  "/api/job/[slug]",
-];
+const restricted = ["/api/post/[slug]", "/api/job/[slug]"];
 
 /*
  * @params {request, response, callback} default Request and Response
@@ -22,7 +19,7 @@ export default middleware.use(async (req, res, next) => {
 
   if (!restricted.includes(req.url) && !authHeader) {
     return next();
-  } 
+  }
   if (authHeader) {
     let sessionID = authHeader.split(" ")[1];
     if (sessionID) {
@@ -37,13 +34,12 @@ export default middleware.use(async (req, res, next) => {
           error: "Expired",
         });
       }
-    }
-    else {
+    } else {
       res.statusCode = 401;
-        return res.send({
-          status: "error",
-          error: "Wrong Token",
-        });
+      return res.send({
+        status: "error",
+        error: "Wrong Token",
+      });
     }
   } else {
     res.statusCode = 401;

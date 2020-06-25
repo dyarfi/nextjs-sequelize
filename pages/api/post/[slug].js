@@ -44,11 +44,11 @@ const handler = nextConnect()
   })
   // Put method
   .put(async (req, res) => {
-    res.end("method - put");
+    // res.end("method - put");
   })
   // Patch method
   .patch(async (req, res) => {
-    throw new Error("Throws me around! Error can be caught and handled.");
+    // throw new Error("Throws me around! Error can be caught and handled.");
   });
 
 export default handler;
