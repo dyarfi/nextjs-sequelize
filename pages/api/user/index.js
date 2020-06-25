@@ -46,7 +46,7 @@ const handler = nextConnect()
     const { slug } = req.query;
     const { username, email, password } = body;
     const userId = slug;
-    const newPost = await models.users.create({
+    const newUser = await models.users.create({
       username,
       email,
       password,
@@ -55,7 +55,7 @@ const handler = nextConnect()
     return res.status(200).json({
       status: "success",
       message: "done",
-      data: newPost,
+      data: newUser,
     });
   })
   // Put method

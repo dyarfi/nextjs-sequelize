@@ -1,5 +1,4 @@
-// import passport from "passport";
-import models from "../../../db/models/index";
+import models from "../../db/models/index";
 import nextConnect from "next-connect";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -7,10 +6,7 @@ import jwt from "jsonwebtoken";
 const KEY = process.env.JWT_KEY;
 
 const handler = nextConnect()
-  // .use()
-  .get((req, res) => {
-    /* res.send("method get"); */
-  })
+  .get((req, res) => {})
   .post(async (req, res) => {
     /* Get Post Data */
     const { email, password } = req.body;
@@ -29,10 +25,7 @@ const handler = nextConnect()
     });
     /* Check if exists */
     if (!user) {
-      res.status(400).json({
-        status: "error",
-        error: "User Not Found",
-      });
+      res.status(400).json({ status: "error", error: "User Not Found" });
     }
     /* Define variables */
     const dataUser = user.toJSON();
@@ -58,7 +51,7 @@ const handler = nextConnect()
           (err, token) => {
             res.status(200).json({
               success: true,
-              token: "Bearer " + token,
+              token: `Bearer ${token}`,
             });
           }
         );
@@ -66,12 +59,5 @@ const handler = nextConnect()
         res.status(400).json({ status: "error", error: "Password incorrect" });
       }
     });
-  })
-  .put(async (req, res) => {
-    /* res.end("method - put"); */
-  })
-  .patch(async (req, res) => {
-    /* throw new Error("method - patch"); */
   });
-
 export default handler;

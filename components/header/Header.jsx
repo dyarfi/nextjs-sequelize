@@ -10,9 +10,9 @@ const Header = ({ props }) => {
         <Link href="/">
           <a className="nav-item nav-link">Home</a>
         </Link>
-        <Link href="/about">
+        {/* <Link href="/about">
           <a className="nav-item nav-link">About</a>
-        </Link>
+        </Link> */}
         {/* <Link href="/forever">
           <a className="nav-item nav-link">Forever</a>
         </Link> */}

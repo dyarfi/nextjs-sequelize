@@ -73,7 +73,7 @@ function Login(props) {
     if (isValid) {
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
-      const loginApi = await fetch(`${baseApiUrl}/user/auth`, {
+      const loginApi = await fetch(`${baseApiUrl}/auth`, {
         method: "POST",
         headers: {
           Accept: "application/json",
