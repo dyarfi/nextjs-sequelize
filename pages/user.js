@@ -36,7 +36,6 @@ function User(props) {
       },
     });
   }
-  // console.log(user);
 
   return (
     <Layout title="Next.js with Sequelize | User Page">

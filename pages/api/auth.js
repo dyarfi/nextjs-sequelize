@@ -1,37 +1,21 @@
-// import passport from "passport";
-import models from "../../../db/models/index";
+import models from "../../db/models/index";
 import nextConnect from "next-connect";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-// var bcrypt = require("bycryptjs");
 
 const KEY = process.env.JWT_KEY;
 
-// const authenticate = (method, req, res) =>
-//   new Promise((resolve, reject) => {
-//     passport.authenticate(method, { session: false }, (error, token) => {
-//       if (error) {
-//         reject(error)
-//       } else {
-//         resolve(token)
-//       }
-//     })(req, res)
-//   })
-
-// passport.use(localStrategy)
-// console.log(passportMiddleware);
-
 const handler = nextConnect()
-  // .use()
-  .get((req, res) => {
-    /* res.send("method get"); */
-  })
+  .get((req, res) => {})
   .post(async (req, res) => {
     /* Get Post Data */
     const { email, password } = req.body;
     /* Any how email or password is blank */
     if (!email || !password) {
-      return res.status(400).json("Request missing username or password");
+      return res.status(400).json({
+        status: "error",
+        error: "Request missing username or password",
+      });
     }
     /* Check user in database */
     const user = await models.users.findOne({
@@ -41,7 +25,7 @@ const handler = nextConnect()
     });
     /* Check if exists */
     if (!user) {
-      res.status(400).json({ userNotFound: "User Not Found" });
+      res.status(400).json({ status: "error", error: "User Not Found" });
     }
     /* Define variables */
     const dataUser = user.toJSON();
@@ -71,17 +55,9 @@ const handler = nextConnect()
             });
           }
         );
-        // res.json({ data: isMatch });
       } else {
-        res.status(400).json({ passwordIncorrect: "Password incorrect" });
+        res.status(400).json({ status: "error", error: "Password incorrect" });
       }
     });
-  })
-  .put(async (req, res) => {
-    /* res.end("method - put"); */
-  })
-  .patch(async (req, res) => {
-    /* throw new Error("method - patch"); */
   });
-
 export default handler;

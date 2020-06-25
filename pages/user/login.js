@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Router from "next/router";
-import jwt from "jsonwebtoken";
 import Cookies from "js-cookie";
 
 /* components */
@@ -36,25 +34,13 @@ const FORM_DATA_LOGIN = {
   },
 };
 
-// const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
-// const baseApiUrl = `${host}${req.headers.host}/api/login`;
-
-// jwt.decode
-
 function Login(props) {
   const { baseApiUrl, referer } = props;
-  // console.log(referer);
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_LOGIN);
   const [stateFormError, setStateFormError] = useState([]);
   const [stateFormValid, setStateFormValid] = useState(false);
   const [stateFormMessage, setStateFormMessage] = useState({});
-
-  useEffect(() => {
-    const jwtToken = localStorage.token;
-    var decoded = jwt.decode(jwtToken, { complete: true });
-    console.log(decoded);
-  }, []);
 
   function onChangeHandler(e) {
     const { name, value } = e.currentTarget;
@@ -85,11 +71,9 @@ function Login(props) {
     const isValid = validationHandler(stateFormData);
 
     if (isValid) {
-      // console.log(data);
-      /* dispatchLogin(data); */
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
-      const loginApi = await fetch(`${baseApiUrl}/user/auth`, {
+      const loginApi = await fetch(`${baseApiUrl}/auth`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -97,14 +81,12 @@ function Login(props) {
         },
         body: JSON.stringify(data),
       });
-      // const posts = postsApi.json();
       let result = await loginApi.json();
       if (result.success && result.token) {
-        // localStorage.setItem("token", result.token);
         Cookies.set("token", result.token);
-        // Router.push({ pathname: referer || "/", query: {} }, "/");
-        // Router.push(referer);
-        window.location.href = referer;
+        window.location.href = referer ? referer : "/";
+      } else {
+        setStateFormMessage(result);
       }
     }
   }

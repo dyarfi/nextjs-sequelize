@@ -1,44 +1,33 @@
+import nextConnect from "next-connect";
 const models = require("../../../db/models/index");
 
-export default async (req, res) => {
-  const {
-    query: { id, name },
-    method,
-    body,
-  } = req;
-  const { slug } = req.query;
-  const { username, email, password } = body;
-  const userId = slug;
-
-  switch (method) {
-    case "POST":
-      return res.status(200).json({
-        message: "done",
-        data: {},
-      });
-    case "PATCH":
-      return res.json({
-        message: "ok post",
-      });
-    case "GET":
-      const user = await models.users.findOne({
-        where: {
-          id: userId,
+const handler = nextConnect()
+  .get(async (req, res) => {
+    const {
+      query: { id, name },
+    } = req;
+    const { slug } = req.query;
+    const userId = slug;
+    const user = await models.users.findOne({
+      where: {
+        id: userId,
+      },
+      include: [
+        {
+          model: models.posts,
+          as: "posts",
         },
-        include: [
-          {
-            model: models.posts,
-            as: "posts",
-          },
-          {
-            model: models.jobs,
-            as: "jobs",
-          },
-        ],
-      });
-      res.statusCode = 200;
-      return res.json({ data: user });
-    default:
-      break;
-  }
-};
+        {
+          model: models.jobs,
+          as: "jobs",
+        },
+      ],
+    });
+    res.statusCode = 200;
+    return res.json({ status: "success", data: user });
+  })
+  .post(async (req, res) => {})
+  .put(async (req, res) => {})
+  .patch(async (req, res) => {});
+
+export default handler;

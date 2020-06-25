@@ -30,14 +30,15 @@ const handler = nextConnect()
   .post(async (req, res) => {
     const { body } = req;
     const { title, content } = body;
+    const { user } = req;
     const newPost = await models.posts.create({
       title,
       content,
       status: 1,
-      userId: 1,
+      userId: user.id,
     });
-
     return res.status(200).json({
+      status: "success",
       message: "done",
       data: newPost,
     });

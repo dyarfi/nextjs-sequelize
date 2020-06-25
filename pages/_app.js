@@ -48,12 +48,4 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
   return { pageProps };
 };
 
-// // MyApp.getInitialProps = ({ res, err }) => {
-// MyApp.getStaticProps = ({ res, err }) => {
-//   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-//   console.log(res);
-
-//   return { statusCode };
-// };
-
 export default MyApp;

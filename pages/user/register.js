@@ -74,9 +74,8 @@ function Register(props) {
 
     /* validation handler */
     const isValid = validationHandler(stateFormData);
-    console.log(stateFormValid);
 
-    if (stateFormValid) {
+    if (isValid) {
       /* username */
       data = { ...data, username: data.username.value || "" };
       /* email */
@@ -98,11 +97,9 @@ function Register(props) {
           },
           body: JSON.stringify(data),
         });
-        // const posts = postsApi.json();
         let result = await loginApi.json();
-        if (result.success && result.token) {
-          localStorage.setItem("token", result.token);
-          Router.push({ pathname: "/", query: {} }, "/");
+        if (result.status === "success" && result.message === "done") {
+          window.location.href = "/";
         }
       }
     }

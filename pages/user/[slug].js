@@ -12,7 +12,7 @@ import FormRegister from "../../components/form/FormRegister";
 
 function User(props) {
   const { user, url, referer } = props;
-  const [titlePage,setTitlePage] = useState('Profile');
+  const [titlePage, setTitlePage] = useState("Profile");
 
   useEffect(() => {
     if (url === "/user/logout") {
@@ -20,10 +20,10 @@ function User(props) {
       Router.push({ pathname: "/", query: {} }, "/");
     }
     if (url === "/user/login") {
-      setTitlePage('Login');
+      setTitlePage("Login");
     }
     if (url === "/user/register") {
-      setTitlePage('Register');
+      setTitlePage("Register");
     }
   }, [url]);
 
@@ -123,7 +123,7 @@ function User(props) {
 export async function getServerSideProps(context) {
   const { query, req, res, headers } = context;
   const { url } = req;
-  const referer = req.headers.referer || '';
+  const referer = req.headers.referer || "";
 
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
   const baseApiUrl = `${host}${req.headers.host}/api`;

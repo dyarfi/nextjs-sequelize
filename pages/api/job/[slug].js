@@ -12,7 +12,6 @@ const handler = nextConnect()
       method,
       body,
     } = req;
-
     const job = await models.jobs.findOne({
       where: {
         slug: slug,
@@ -36,6 +35,7 @@ const handler = nextConnect()
     } = req;
     const { title, content, emailTo, reportManager, dateLimit } = body;
     const { slug } = req.query;
+    const { user } = req;
     let status = "success",
       statusCode = 200,
       error = "",
@@ -49,7 +49,7 @@ const handler = nextConnect()
         reportManager,
         dateLimit,
         status: 1,
-        userId: 1,
+        userId: user.id,
       });
     } catch (err) {
       /* Sql error number */
@@ -75,58 +75,3 @@ const handler = nextConnect()
   });
 
 export default handler;
-
-/* 
-export default async (req, res) => {
-  const {
-    query: { id, name },
-    method,
-    body,
-  } = req;
-  const { title, content, emailTo, reportManager, dateLimit } = body;
-  const { slug } = req.query;
-
-  switch (method) {
-    case "POST":
-      const newJob = await models.jobs.create({
-        title,
-        content,
-        emailTo,
-        reportManager,
-        dateLimit,
-        status: 1,
-        userId: 1,
-      });
-
-      return res.status(200).json({
-        message: "done",
-        data: newJob,
-      });
-
-    case "PATCH":
-      return res.json({
-        message: "ok post",
-      });
-
-    case "GET":
-      const job = await models.jobs.findOne({
-        where: {
-          slug: slug,
-        },
-        include: [
-          {
-            model: models.users,
-            as: "user",
-          },
-        ],
-      });
-
-      res.statusCode = 200;
-      return res.json({ data: job });
-
-    default:
-      break;
-  }
-};
-
- */

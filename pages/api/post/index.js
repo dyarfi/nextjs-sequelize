@@ -3,8 +3,6 @@ import middleware from "../../../middleware/auth";
 const models = require("../../../db/models/index");
 
 const handler = nextConnect()
-  // Middleware
-  // .use(middleware)
   // Get method
   .get(async (req, res) => {
     const {
