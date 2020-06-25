@@ -283,7 +283,7 @@ export async function getServerSideProps(context) {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   let post = {};
-  if (url !== "/post/add") {
+  if (url !== "/post/add" && req.method !== "POST") {
     const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
     post = await postApi.json();
   }

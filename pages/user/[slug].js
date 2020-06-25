@@ -127,7 +127,7 @@ export async function getServerSideProps(context) {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   let user = {};
-  if (url !== "/user/logout") {
+  if (url !== "/user/logout" && req.method !== "POST") {
     const userApi = await fetch(`${baseApiUrl}/user/${query.slug}`);
     user = await userApi.json();
   }
