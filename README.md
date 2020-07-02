@@ -55,16 +55,19 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
     "start": "next start"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "js-cookie": "^2.2.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
     "next": "9.4.4",
+    "next-connect": "^0.7.1",
     "nprogress": "^0.2.0",
+    "pg": "^7.0.0",
+    "pg-hstore": "^2.3.3",
     "postcss-preset-env": "^6.7.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "sequelize": "^5.21.11",
-    "sqlite3": "^4.2.0",
-    "pg": "^7.0.0",
-    "pg-hstore": "^2.3.3"
+    "sequelize": "^5.21.11"
   }
 }
 ```
@@ -73,7 +76,7 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
 - Users model
 
-  `sequelize model:create --name users --attributes firstName:string,lastName:string,username:string,email:string,phoneNumber:string,gender:integer,status:boolean`
+  `sequelize model:create --name users --attributes firstName:string,lastName:string,username:string,email:string,phoneNumber:string,gender:string,status:boolean`
 
 - Users model seed
 
@@ -105,7 +108,8 @@ module.exports = {
         firstName: "John",
         lastName: "Doe 1",
         email: "example1@example.com",
-        password: "password",
+        password:
+          "$2y$10$mj1OMFvVmGAR4gEEXZGtA.R5wYWBZTis72hSXzpxEs.QoXT3ifKSq",
         status: 1,
         gender: "f",
         phoneNumber: "0239239249239",
