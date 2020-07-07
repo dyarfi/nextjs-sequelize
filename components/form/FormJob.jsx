@@ -2,6 +2,7 @@ function FormJob(props) {
   const {
     onSubmit,
     onChange,
+    loading,
     stateFormData,
     stateFormError,
     stateFormValid,
@@ -24,7 +25,6 @@ function FormJob(props) {
           id="title"
           name="title"
           placeholder="Job Title"
-          // defaultValue=""
           onChange={onChange}
           value={stateFormData.title.value}
         />
@@ -40,7 +40,6 @@ function FormJob(props) {
           id="text"
           name="content"
           placeholder="Post Text"
-          // defaultValue=""
           onChange={onChange}
           value={stateFormData.content.value}
         />
@@ -56,7 +55,6 @@ function FormJob(props) {
           id="text"
           name="reportManager"
           placeholder="Job Report Manager"
-          // defaultValue=""
           onChange={onChange}
           value={stateFormData.reportManager.value}
         />
@@ -72,7 +70,6 @@ function FormJob(props) {
           id="text"
           name="dateLimit"
           placeholder="Job Date Limit"
-          // defaultValue=""
           onChange={onChange}
           value={stateFormData.dateLimit.value}
         />
@@ -81,8 +78,12 @@ function FormJob(props) {
         )}
       </div>
       <div>
-        <button type="submit" className="btn btn-block btn-warning">
-          Submit
+        <button
+          type="submit"
+          className="btn btn-block btn-warning"
+          disabled={loading}
+        >
+          {!loading ? "Submit" : "Submitting..."}
         </button>
       </div>
     </form>

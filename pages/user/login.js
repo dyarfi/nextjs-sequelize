@@ -36,6 +36,7 @@ const FORM_DATA_LOGIN = {
 
 function Login(props) {
   const { baseApiUrl, referer } = props;
+  const [loading, setLoading] = useState(false);
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_LOGIN);
   const [stateFormError, setStateFormError] = useState([]);
@@ -73,6 +74,7 @@ function Login(props) {
     if (isValid) {
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
+      setLoading(!loading);
       const loginApi = await fetch(`${baseApiUrl}/auth`, {
         method: "POST",
         headers: {
@@ -80,6 +82,8 @@ function Login(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+      }).catch((error) => {
+        console.error("Error:", error);
       });
       let result = await loginApi.json();
       if (result.success && result.token) {
@@ -88,6 +92,7 @@ function Login(props) {
       } else {
         setStateFormMessage(result);
       }
+      setLoading(false);
     }
   }
 
@@ -100,7 +105,7 @@ function Login(props) {
       if (states[input].required) {
         if (!states[input].value) {
           errors[input] = {
-            hint: `${states[e.target.name].label} wajib diisi`,
+            hint: `${states[e.target.name].label} required`,
             isInvalid: true,
           };
           isValid = false;
@@ -111,7 +116,7 @@ function Login(props) {
         states[input].min > states[input].value.length
       ) {
         errors[input] = {
-          hint: `Kolom ${states[input].label} minimal ${states[input].min}`,
+          hint: `Field ${states[input].label} min ${states[input].min}`,
           isInvalid: true,
         };
         isValid = false;
@@ -121,7 +126,7 @@ function Login(props) {
         states[input].max < states[input].value.length
       ) {
         errors[input] = {
-          hint: `Kolom ${states[input].label} maksimal ${states[input].max}`,
+          hint: `Field ${states[input].label} max ${states[input].max}`,
           isInvalid: true,
         };
         isValid = false;
@@ -156,14 +161,14 @@ function Login(props) {
           }
           if (field.value && field.min >= field.value.length) {
             errors[item[0]] = {
-              hint: `Kolom ${field.label} minimal ${field.min}`,
+              hint: `Field ${field.label} min ${field.min}`,
               isInvalid: true,
             };
             isValid = false;
           }
           if (field.value && field.max <= field.value.length) {
             errors[item[0]] = {
-              hint: `Kolom ${field.label} maksimal ${field.max}`,
+              hint: `Field ${field.label} max ${field.max}`,
               isInvalid: true,
             };
             isValid = false;
@@ -204,6 +209,7 @@ function Login(props) {
             props={{
               onSubmitHandler,
               onChangeHandler,
+              loading,
               stateFormData,
               stateFormError,
               stateFormMessage,

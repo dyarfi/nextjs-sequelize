@@ -2,6 +2,7 @@ function FormLogin({ props }) {
   const {
     onSubmitHandler,
     onChangeHandler,
+    loading,
     stateFormData,
     stateFormError,
     stateFormMessage,
@@ -25,7 +26,6 @@ function FormLogin({ props }) {
           name="email"
           placeholder="Email"
           onChange={onChangeHandler}
-          // value=""
           value={stateFormData.email.value}
         />
         {stateFormError.email && (
@@ -41,7 +41,6 @@ function FormLogin({ props }) {
           name="password"
           placeholder="Password"
           onChange={onChangeHandler}
-          // value=""
           value={stateFormData.email.password}
         />
         {stateFormError.password && (
@@ -49,8 +48,12 @@ function FormLogin({ props }) {
         )}
       </div>
       <div>
-        <button type="submit" className="btn btn-block btn-warning">
-          Login
+        <button
+          type="submit"
+          className="btn btn-block btn-warning"
+          disabled={loading}
+        >
+          {!loading ? "Login" : "Loading..."}
         </button>
       </div>
     </form>

@@ -54,22 +54,6 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
   const { query, req, res } = context;
-  // console.log(context);
-
-  // const { nextPage } = query;
-  // const { token } = getAppCookies(req);
-
-  // const nextPageUrl = !isNaN(nextPage) ? `?nextPage=${nextPage}` : "";
-  // const baseApiUrl = `${host}${req.headers.host}/api`;
-
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  // const jobsApi = await fetch(`${baseApiUrl}/job${nextPageUrl}`, {
-  //   headers: {
-  //     authorization: token || "",
-  //   },
-  // });
-  // const jobs = await jobsApi.json();
 
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time

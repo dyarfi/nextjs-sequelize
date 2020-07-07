@@ -80,30 +80,6 @@ function User(props) {
                 {users.error}
               </h3>
             )}
-            {/* {users.data.length && (
-              <>
-                {renderUsers(users)}
-                {users.nextPage < users.total &&
-                users.data.length !== users.total ? (
-                  <button onClick={loadMoreClick}>Next</button>
-                ) : (
-                  <span className="span-info">no page left</span>
-                )}
-                <style jsx>
-                  {`
-                    button,
-                    .span-info {
-                      margin: 1rem auto;
-                      padding: 0.5rem 1rem;
-                      border: 1px solid #cecece;
-                      background-color: #fffcfc;
-                      color: #7b7b7b;
-                      outline: none;
-                    }
-                  `}
-                </style>
-              </>
-            )} */}
           </div>
         </main>
       </div>

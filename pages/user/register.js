@@ -46,6 +46,7 @@ const FORM_DATA_REGISTER = {
 
 function Register(props) {
   const { baseApiUrl } = props;
+  const [loading, setLoading] = useState(false);
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_REGISTER);
   const [stateFormError, setStateFormError] = useState([]);
@@ -89,6 +90,7 @@ function Register(props) {
       if (isValid) {
         // Call an external API endpoint to get posts.
         // You can use any data fetching library
+        setLoading(!loading);
         const loginApi = await fetch(`${baseApiUrl}/user`, {
           method: "POST",
           headers: {
@@ -96,11 +98,16 @@ function Register(props) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
+        }).catch((error) => {
+          console.error("Error:", error);
         });
         let result = await loginApi.json();
         if (result.status === "success" && result.message === "done") {
           window.location.href = "/";
+        } else {
+          setStateFormMessage(result);
         }
+        setLoading(false);
       }
     }
   }
@@ -218,6 +225,7 @@ function Register(props) {
             props={{
               onSubmitHandler,
               onChangeHandler,
+              loading,
               stateFormData,
               stateFormError,
               stateFormMessage,

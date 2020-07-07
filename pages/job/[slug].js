@@ -63,6 +63,7 @@ function Job(props) {
   const { job, url, token } = props;
 
   const { baseApiUrl } = props;
+  const [loading, setLoading] = useState(false);
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_JOB);
   const [stateFormError, setStateFormError] = useState([]);
@@ -89,6 +90,7 @@ function Job(props) {
     if (isValid) {
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
+      setLoading(!loading);
       const jobApi = await fetch(`${baseApiUrl}/job/[slug]`, {
         method: "POST",
         headers: {
@@ -112,6 +114,7 @@ function Job(props) {
       } else {
         setStateFormMessage(result);
       }
+      setLoading(false);
     }
   }
 
@@ -241,6 +244,7 @@ function Job(props) {
         <FormJob
           onSubmit={onSubmitHandler}
           onChange={onChangeHandler}
+          loading={loading}
           stateFormData={stateFormData}
           stateFormError={stateFormError}
           stateFormValid={stateFormValid}

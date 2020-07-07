@@ -6,10 +6,6 @@ import Router from "next/router";
 /* components */
 import Layout from "../../components/layout/Layout";
 
-/* forms */
-import FormLogin from "../../components/form/FormLogin";
-import FormRegister from "../../components/form/FormRegister";
-
 function User(props) {
   const { user, url, referer } = props;
   const [titlePage, setTitlePage] = useState("Profile");
