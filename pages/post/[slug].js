@@ -41,6 +41,7 @@ function Post(props) {
   const { user, post, url, token } = props;
 
   const { baseApiUrl } = props;
+  const [loading, setLoading] = useState(false);
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_POST);
   const [stateFormError, setStateFormError] = useState([]);
@@ -63,6 +64,7 @@ function Post(props) {
     if (isValid) {
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
+      setLoading(!loading);
       const postApi = await fetch(`${baseApiUrl}/post/[slug]`, {
         method: "POST",
         headers: {
@@ -81,6 +83,7 @@ function Post(props) {
       } else {
         setStateFormMessage(result);
       }
+      setLoading(false);
     }
   }
 
@@ -210,6 +213,7 @@ function Post(props) {
         <FormPost
           onSubmit={onSubmitHandler}
           onChange={onChangeHandler}
+          loading={loading}
           stateFormData={stateFormData}
           stateFormError={stateFormError}
           stateFormValid={stateFormValid}

@@ -2,6 +2,7 @@ function FormRegister({ props }) {
   const {
     onSubmitHandler,
     onChangeHandler,
+    loading,
     stateFormData,
     stateFormError,
     stateFormMessage,
@@ -29,7 +30,6 @@ function FormRegister({ props }) {
           id="username"
           name="username"
           placeholder="Username"
-          // value=""
           value={stateFormData.username.value}
         />
         {stateFormError.username && (
@@ -47,7 +47,6 @@ function FormRegister({ props }) {
           id="email"
           name="email"
           placeholder="Email"
-          // value=""
           defaultValue={stateFormData.email.value}
         />
         {stateFormError.email && (
@@ -63,7 +62,6 @@ function FormRegister({ props }) {
           id="password"
           name="password"
           placeholder="Password"
-          // value=""
           defaultValue={stateFormData.password.value}
         />
         {stateFormError.password && (
@@ -71,8 +69,12 @@ function FormRegister({ props }) {
         )}
       </div>
       <div>
-        <button type="submit" className="btn btn-block btn-warning">
-          Register
+        <button
+          type="submit"
+          className="btn btn-block btn-warning"
+          disabled={loading}
+        >
+          {!loading ? "Register" : "Registering..."}
         </button>
       </div>
     </form>

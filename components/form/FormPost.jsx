@@ -2,6 +2,7 @@ function FormPost(props) {
   const {
     onSubmit,
     onChange,
+    loading,
     stateFormData,
     stateFormError,
     stateFormValid,
@@ -24,7 +25,6 @@ function FormPost(props) {
           id="title"
           name="title"
           placeholder="Post Title"
-          // defaultValue=""
           onChange={onChange}
           value={stateFormData.title.value}
         />
@@ -40,7 +40,6 @@ function FormPost(props) {
           id="text"
           name="content"
           placeholder="Post Content"
-          // defaultValue=""
           onChange={onChange}
           value={stateFormData.content.value}
         />
@@ -49,8 +48,12 @@ function FormPost(props) {
         )}
       </div>
       <div>
-        <button type="submit" className="btn btn-block btn-warning">
-          Submit
+        <button
+          type="submit"
+          className="btn btn-block btn-warning"
+          disabled={loading}
+        >
+          {!loading ? "Submit" : "Submitting..."}
         </button>
       </div>
     </form>

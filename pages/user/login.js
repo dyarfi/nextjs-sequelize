@@ -36,6 +36,7 @@ const FORM_DATA_LOGIN = {
 
 function Login(props) {
   const { baseApiUrl, referer } = props;
+  const [loading, setLoading] = useState(false);
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_LOGIN);
   const [stateFormError, setStateFormError] = useState([]);
@@ -73,6 +74,7 @@ function Login(props) {
     if (isValid) {
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
+      setLoading(!loading);
       const loginApi = await fetch(`${baseApiUrl}/auth`, {
         method: "POST",
         headers: {
@@ -88,6 +90,7 @@ function Login(props) {
       } else {
         setStateFormMessage(result);
       }
+      setLoading(false);
     }
   }
 
@@ -204,6 +207,7 @@ function Login(props) {
             props={{
               onSubmitHandler,
               onChangeHandler,
+              loading,
               stateFormData,
               stateFormError,
               stateFormMessage,
