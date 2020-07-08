@@ -31,6 +31,7 @@ function FormRegister({ props }) {
           name="username"
           placeholder="Username"
           value={stateFormData.username.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.username && (
           <span span className="warning">
@@ -48,6 +49,7 @@ function FormRegister({ props }) {
           name="email"
           placeholder="Email"
           defaultValue={stateFormData.email.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.email && (
           <span className="warning">{stateFormError.email.hint}</span>
@@ -63,6 +65,7 @@ function FormRegister({ props }) {
           name="password"
           placeholder="Password"
           defaultValue={stateFormData.password.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.password && (
           <span className="warning">{stateFormError.password.hint}</span>

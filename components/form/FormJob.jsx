@@ -27,6 +27,7 @@ function FormJob(props) {
           placeholder="Job Title"
           onChange={onChange}
           value={stateFormData.title.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.title && (
           <span className="warning">{stateFormError.title.hint}</span>
@@ -42,6 +43,7 @@ function FormJob(props) {
           placeholder="Post Text"
           onChange={onChange}
           value={stateFormData.content.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.content && (
           <span className="warning">{stateFormError.content.hint}</span>
@@ -57,6 +59,7 @@ function FormJob(props) {
           placeholder="Job Report Manager"
           onChange={onChange}
           value={stateFormData.reportManager.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.reportManager && (
           <span className="warning">{stateFormError.reportManager.hint}</span>
@@ -72,6 +75,7 @@ function FormJob(props) {
           placeholder="Job Date Limit"
           onChange={onChange}
           value={stateFormData.dateLimit.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.dateLimit && (
           <span className="warning">{stateFormError.dateLimit.hint}</span>

@@ -27,6 +27,7 @@ function FormLogin({ props }) {
           placeholder="Email"
           onChange={onChangeHandler}
           value={stateFormData.email.value}
+          readonly={loading && "readonly"}
         />
         {stateFormError.email && (
           <span className="warning">{stateFormError.email.hint}</span>
@@ -42,6 +43,7 @@ function FormLogin({ props }) {
           placeholder="Password"
           onChange={onChangeHandler}
           value={stateFormData.email.password}
+          readonly={loading && "readonly"}
         />
         {stateFormError.password && (
           <span className="warning">{stateFormError.password.hint}</span>
