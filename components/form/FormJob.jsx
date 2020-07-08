@@ -56,6 +56,7 @@ function FormJob(props) {
           name="reportManager"
           placeholder="Job Report Manager"
           onChange={onChange}
+          readonly={loading && "readonly"}
           value={stateFormData.reportManager.value}
         />
         {stateFormError.reportManager && (
@@ -71,6 +72,7 @@ function FormJob(props) {
           name="dateLimit"
           placeholder="Job Date Limit"
           onChange={onChange}
+          readonly={loading && "readonly"}
           value={stateFormData.dateLimit.value}
         />
         {stateFormError.dateLimit && (

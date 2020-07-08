@@ -58,6 +58,16 @@ export default function Layout({
           font-size: inherit;
           line-height: inherit;
         }
+        .btn-warning.disabled,
+        .btn-warning:disabled {
+          background-color: #ffdf7f;
+          border-color: #ffffff;
+        }
+        .form-control:disabled,
+        .form-control[readonly] {
+          background-color: #e9ecef;
+          opacity: 1;
+        }
         .form-group {
           margin-bottom: 1rem;
         }

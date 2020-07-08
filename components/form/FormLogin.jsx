@@ -26,6 +26,7 @@ function FormLogin({ props }) {
           name="email"
           placeholder="Email"
           onChange={onChangeHandler}
+          readonly={loading && "readonly"}
           value={stateFormData.email.value}
         />
         {stateFormError.email && (
@@ -41,6 +42,7 @@ function FormLogin({ props }) {
           name="password"
           placeholder="Password"
           onChange={onChangeHandler}
+          readonly={loading && "readonly"}
           value={stateFormData.email.password}
         />
         {stateFormError.password && (

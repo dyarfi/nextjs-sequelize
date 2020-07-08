@@ -26,6 +26,7 @@ function FormPost(props) {
           name="title"
           placeholder="Post Title"
           onChange={onChange}
+          readonly={loading && "readonly"}
           value={stateFormData.title.value}
         />
         {stateFormError.title && (
@@ -41,6 +42,7 @@ function FormPost(props) {
           name="content"
           placeholder="Post Content"
           onChange={onChange}
+          readonly={loading && "readonly"}
           value={stateFormData.content.value}
         />
         {stateFormError.content && (
