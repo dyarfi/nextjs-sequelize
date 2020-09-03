@@ -7,13 +7,22 @@ import Footer from "../footer/Footer";
 export default function Layout({
   children,
   title = "Next.js with Sequelize | A boilerplate from dyarfi.github.io",
+  description = "Next.js with Sequelize | A boilerplate Next.js and Sequelize from dyarfi.github.io",
+  keywords = "Next.js, Sequelize, ORM, JWT, Json Web Tokens, Authentication, Application",
+  type = "website",
 }) {
   return (
     <div>
       <Head>
+        <meta charSet="utf-8" />
         <title>{title}</title>
         <link rel="icon" href="/favicon.ico" />
-        <meta charSet="utf-8" />
+        <meta name="robots" content="index, follow" />
+        <meta name="description" content={description} />
+        <meta name="keywords" content={keywords} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content={type} />
         {/* <meta name="viewport" content="initial-scale=1.0, width=device-width" /> */}
         <meta
           name="viewport"
