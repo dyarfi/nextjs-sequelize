@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Router from "next/router";
 import Cookies from "js-cookie";
 
 /* components */
@@ -88,7 +89,9 @@ function Login(props) {
       let result = await loginApi.json();
       if (result.success && result.token) {
         Cookies.set("token", result.token);
-        window.location.href = referer ? referer : "/";
+        // window.location.href = referer ? referer : "/";
+        // const pathUrl = referer ? referer.lastIndexOf("/") : "/";
+        Router.push("/");
       } else {
         setStateFormMessage(result);
       }
