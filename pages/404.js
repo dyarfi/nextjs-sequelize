@@ -1,5 +1,5 @@
 /* components */
-import Layout from "../components/layout/Layout";
+import Layout from '../components/layout/Layout';
 
 // pages/404.js
 export default function Custom404() {

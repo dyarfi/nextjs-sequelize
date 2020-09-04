@@ -1,4 +1,4 @@
-export default function Footer({ copyright = "2020" }) {
+export default function Footer({ copyright = '2020' }) {
   return (
     <footer className="footer-main text-center">
       <div className="d-block">

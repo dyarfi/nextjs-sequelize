@@ -1,9 +1,9 @@
-"use strict";
-var bcrypt = require("bcryptjs");
+'use strict';
+var bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
   const users = sequelize.define(
-    "users",
+    'users',
     {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
@@ -16,17 +16,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       hooks: {
-        beforeCreate: async function (user, options) {
+        beforeCreate: async function(user, options) {
           // Do stuff
           user.password = await bcrypt.hashSync(user.password, 10);
         },
       },
-    }
+    },
   );
-  users.associate = function (models) {
+  users.associate = function(models) {
     // associations can be defined here
-    users.hasMany(models.posts, { as: "posts" });
-    users.hasMany(models.jobs, { as: "jobs" });
+    users.hasMany(models.posts, { as: 'posts' });
+    users.hasMany(models.jobs, { as: 'jobs' });
   };
   return users;
 };

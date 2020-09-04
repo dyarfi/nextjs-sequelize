@@ -17,7 +17,7 @@ function FormRegister({ props }) {
       <div className="form-group">
         <h2>Register</h2>
         <hr />
-        {stateFormMessage.status === "error" && (
+        {stateFormMessage.status === 'error' && (
           <h4 className="warning text-center">{stateFormMessage.error}</h4>
         )}
       </div>
@@ -30,13 +30,11 @@ function FormRegister({ props }) {
           id="username"
           name="username"
           placeholder="Username"
+          readOnly={loading && true}
           value={stateFormData.username.value}
-          readonly={loading && "readonly"}
         />
         {stateFormError.username && (
-          <span span className="warning">
-            {stateFormError.username.hint}
-          </span>
+          <span className="warning">{stateFormError.username.hint}</span>
         )}
       </div>
       <div className="form-group">
@@ -48,8 +46,8 @@ function FormRegister({ props }) {
           id="email"
           name="email"
           placeholder="Email"
+          readOnly={loading && true}
           defaultValue={stateFormData.email.value}
-          readonly={loading && "readonly"}
         />
         {stateFormError.email && (
           <span className="warning">{stateFormError.email.hint}</span>
@@ -64,8 +62,8 @@ function FormRegister({ props }) {
           id="password"
           name="password"
           placeholder="Password"
+          readOnly={loading && true}
           defaultValue={stateFormData.password.value}
-          readonly={loading && "readonly"}
         />
         {stateFormError.password && (
           <span className="warning">{stateFormError.password.hint}</span>
@@ -77,7 +75,7 @@ function FormRegister({ props }) {
           className="btn btn-block btn-warning"
           disabled={loading}
         >
-          {!loading ? "Register" : "Registering..."}
+          {!loading ? 'Register' : 'Registering...'}
         </button>
       </div>
     </form>

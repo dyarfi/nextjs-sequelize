@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-/* Middleware utils */
-import { getAppCookies } from "../../middleware/utils";
+/* utils */
+import { absoluteUrl, getAppCookies } from '../../middleware/utils';
 
 /* components */
-import Layout from "../../components/layout/Layout";
-import FormPost from "../../components/form/FormPost";
+import Layout from '../../components/layout/Layout';
+import FormPost from '../../components/form/FormPost';
 
 /* post schemas */
 const FORM_DATA_POST = {
   title: {
-    value: "",
-    label: "Title",
+    value: '',
+    label: 'Title',
     min: 10,
     max: 36,
     required: true,
     validator: {
       regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-      error: "Please insert valid Title",
+      error: 'Please insert valid Title',
     },
   },
   content: {
-    value: "",
-    label: "Content",
+    value: '',
+    label: 'Content',
     min: 6,
     max: 1500,
     required: true,
     validator: {
       regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-      error: "Please insert valid Content",
+      error: 'Please insert valid Content',
     },
   },
 };
@@ -38,11 +38,10 @@ const FORM_DATA_POST = {
 function Post(props) {
   const router = useRouter();
 
-  const { user, post, url, token } = props;
-
+  const { origin, post, token } = props;
   const { baseApiUrl } = props;
-  const [loading, setLoading] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const [stateFormData, setStateFormData] = useState(FORM_DATA_POST);
   const [stateFormError, setStateFormError] = useState([]);
   const [stateFormMessage, setStateFormMessage] = useState({});
@@ -54,9 +53,9 @@ function Post(props) {
     let data = { ...stateFormData };
 
     /* email */
-    data = { ...data, title: data.title.value || "" };
+    data = { ...data, title: data.title.value || '' };
     /* content */
-    data = { ...data, content: data.content.value || "" };
+    data = { ...data, content: data.content.value || '' };
 
     /* validation handler */
     const isValid = validationHandler(stateFormData);
@@ -66,19 +65,19 @@ function Post(props) {
       // You can use any data fetching library
       setLoading(!loading);
       const postApi = await fetch(`${baseApiUrl}/post/[slug]`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          authorization: token || "",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          authorization: token || '',
         },
         body: JSON.stringify(data),
       });
 
       let result = await postApi.json();
-      if (result.message && result.data && result.message === "done") {
+      if (result.message && result.data && result.message === 'done') {
         router.push({
-          pathname: result.data.slug ? `/post/${result.data.slug}` : "/post",
+          pathname: result.data.slug ? `/post/${result.data.slug}` : '/post',
         });
       } else {
         setStateFormMessage(result);
@@ -103,7 +102,7 @@ function Post(props) {
   }
 
   function validationHandler(states, e) {
-    const input = (e && e.target.name) || "";
+    const input = (e && e.target.name) || '';
     const errors = [];
     let isValid = true;
 
@@ -139,7 +138,7 @@ function Post(props) {
       }
       if (
         states[input].validator !== null &&
-        typeof states[input].validator === "object"
+        typeof states[input].validator === 'object'
       ) {
         if (
           states[input].value &&
@@ -153,9 +152,9 @@ function Post(props) {
         }
       }
     } else {
-      Object.entries(states).forEach((item) => {
-        item.forEach((field) => {
-          errors[item[0]] = "";
+      Object.entries(states).forEach(item => {
+        item.forEach(field => {
+          errors[item[0]] = '';
           if (field.required) {
             if (!field.value) {
               errors[item[0]] = {
@@ -179,7 +178,7 @@ function Post(props) {
             };
             isValid = false;
           }
-          if (field.validator !== null && typeof field.validator === "object") {
+          if (field.validator !== null && typeof field.validator === 'object') {
             if (field.value && !field.validator.regEx.test(field.value)) {
               errors[item[0]] = {
                 hint: field.validator.error,
@@ -205,7 +204,7 @@ function Post(props) {
       <>
         <Link
           href={{
-            pathname: "/post",
+            pathname: '/post',
           }}
         >
           <a>&larr; Back</a>
@@ -228,7 +227,7 @@ function Post(props) {
       <div className="card">
         <Link
           href={{
-            pathname: "/post",
+            pathname: '/post',
           }}
         >
           <a>&larr; Back</a>
@@ -236,16 +235,16 @@ function Post(props) {
         <h2
           className="sub-title"
           style={{
-            display: "block",
-            marginTop: ".75rem",
+            display: 'block',
+            marginTop: '.75rem',
           }}
         >
           {post.data.title}
           <small
             style={{
-              display: "block",
-              fontWeight: "normal",
-              marginTop: ".75rem",
+              display: 'block',
+              fontWeight: 'normal',
+              marginTop: '.75rem',
             }}
           >
             Posted: {post.data.createdAt}
@@ -253,7 +252,7 @@ function Post(props) {
         </h2>
         <p>{post.data.content}</p>
         <hr />
-        By: {post.data.user.firstName || ""} {post.data.user.lastName || ""}
+        By: {post.data.user.firstName || ''} {post.data.user.lastName || ''}
       </div>
     ) : (
       <div className="container">
@@ -263,42 +262,35 @@ function Post(props) {
   }
 
   return (
-    <Layout title="Next.js with Sequelize | Post Page - Detail">
+    <Layout
+      title={`Next.js with Sequelize | Post Page - ${post.data.title}`}
+      url={`${origin}${router.asPath}`}
+    >
       <div className="container">
         <main className="content-detail">
-          {url === "/post/add" ? renderPostForm() : renderPostList()}
+          {router.asPath === '/post/add' ? renderPostForm() : renderPostList()}
         </main>
       </div>
     </Layout>
   );
 }
 
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
+/* getServerSideProps */
 export async function getServerSideProps(context) {
-  const { query, req, res, headers } = context;
-  const { url } = req;
-  const token = getAppCookies(req).token || "";
+  const { query, req } = context;
+  const { origin } = absoluteUrl(req);
 
-  const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
-  const baseApiUrl = `${host}${req.headers.host}/api`;
+  const token = getAppCookies(req).token || '';
+  const baseApiUrl = `${origin}/api`;
 
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  let post = {};
-  if (url !== "/post/add" && req.method !== "POST") {
-    const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
-    post = await postApi.json();
-  }
+  const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
+  const post = await postApi.json();
 
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
     props: {
+      origin,
       baseApiUrl,
       post,
-      url,
       token,
     },
   };

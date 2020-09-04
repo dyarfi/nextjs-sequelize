@@ -1,41 +1,47 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import Cookies from "js-cookie";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Router, { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+
+/* utils */
+import { absoluteUrl } from '../../middleware/utils';
 
 /* components */
-import Layout from "../../components/layout/Layout";
-import FormLogin from "../../components/form/FormLogin";
+import Layout from '../../components/layout/Layout';
+import FormLogin from '../../components/form/FormLogin';
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 /* login schemas */
 const FORM_DATA_LOGIN = {
   email: {
-    value: "",
-    label: "Email",
+    value: '',
+    label: 'Email',
     min: 10,
     max: 36,
     required: true,
     validator: {
       regEx: emailRegEx,
-      error: "Please insert valid email",
+      error: 'Please insert valid email',
     },
   },
   password: {
-    value: "",
-    label: "Password",
+    value: '',
+    label: 'Password',
     min: 6,
     max: 36,
     required: true,
     validator: {
       regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-      error: "Please insert valid password",
+      error: 'Please insert valid password',
     },
   },
 };
 
 function Login(props) {
-  const { baseApiUrl, referer } = props;
+  const router = useRouter();
+
+  const { origin, referer, baseApiUrl } = props;
   const [loading, setLoading] = useState(false);
 
   const [stateFormData, setStateFormData] = useState(FORM_DATA_LOGIN);
@@ -64,9 +70,9 @@ function Login(props) {
     let data = { ...stateFormData };
 
     /* email */
-    data = { ...data, email: data.email.value || "" };
+    data = { ...data, email: data.email.value || '' };
     /* password */
-    data = { ...data, password: data.password.value || "" };
+    data = { ...data, password: data.password.value || '' };
 
     /* validation handler */
     const isValid = validationHandler(stateFormData);
@@ -76,17 +82,21 @@ function Login(props) {
       // You can use any data fetching library
       setLoading(!loading);
       const loginApi = await fetch(`${baseApiUrl}/auth`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
+      }).catch(error => {
+        console.error('Error:', error);
       });
       let result = await loginApi.json();
       if (result.success && result.token) {
-        Cookies.set("token", result.token);
-        window.location.href = referer ? referer : "/";
+        Cookies.set('token', result.token);
+        // window.location.href = referer ? referer : "/";
+        // const pathUrl = referer ? referer.lastIndexOf("/") : "/";
+        Router.push('/');
       } else {
         setStateFormMessage(result);
       }
@@ -95,7 +105,7 @@ function Login(props) {
   }
 
   function validationHandler(states, e) {
-    const input = (e && e.target.name) || "";
+    const input = (e && e.target.name) || '';
     const errors = [];
     let isValid = true;
 
@@ -131,7 +141,7 @@ function Login(props) {
       }
       if (
         states[input].validator !== null &&
-        typeof states[input].validator === "object"
+        typeof states[input].validator === 'object'
       ) {
         if (
           states[input].value &&
@@ -145,9 +155,9 @@ function Login(props) {
         }
       }
     } else {
-      Object.entries(states).forEach((item) => {
-        item.forEach((field) => {
-          errors[item[0]] = "";
+      Object.entries(states).forEach(item => {
+        item.forEach(field => {
+          errors[item[0]] = '';
           if (field.required) {
             if (!field.value) {
               errors[item[0]] = {
@@ -171,7 +181,7 @@ function Login(props) {
             };
             isValid = false;
           }
-          if (field.validator !== null && typeof field.validator === "object") {
+          if (field.validator !== null && typeof field.validator === 'object') {
             if (field.value && !field.validator.regEx.test(field.value)) {
               errors[item[0]] = {
                 hint: field.validator.error,
@@ -193,12 +203,15 @@ function Login(props) {
   }
 
   return (
-    <Layout title="Next.js with Sequelize | Login page">
+    <Layout
+      title="Next.js with Sequelize | Login page"
+      url={`${origin}${router.asPath}`}
+    >
       <div className="container">
         <main className="content-detail">
           <Link
             href={{
-              pathname: "/user",
+              pathname: '/user',
             }}
           >
             <a>&larr; Back</a>
@@ -219,19 +232,19 @@ function Login(props) {
   );
 }
 
+/* getServerSideProps */
 export async function getServerSideProps(context) {
-  const { query, req, res, headers } = context;
-  const referer = req.headers.referer || "";
-  const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
+  const { req } = context;
+  const { origin } = absoluteUrl(req);
 
-  const baseApiUrl = `${host}${req.headers.host}/api`;
+  const referer = req.headers.referer || '';
+  const baseApiUrl = `${origin}/api`;
 
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
     props: {
-      baseApiUrl,
+      origin,
       referer,
+      baseApiUrl,
     },
   };
 }

@@ -1,5 +1,5 @@
-import nextConnect from "next-connect";
-import { verifyToken } from "./utils";
+import nextConnect from 'next-connect';
+import { verifyToken } from './utils';
 
 const middleware = nextConnect();
 
@@ -7,21 +7,21 @@ const middleware = nextConnect();
 /* middleware.use(database).use(session).use(passport.initialize()).use(passport.session()); */
 
 /* Set restricted public access / put any api access that is restricted in here */
-const restricted = ["/api/post/[slug]", "/api/job/[slug]"];
+const restricted = ['/api/post/[slug]', '/api/job/[slug]'];
 
 /*
  * @params {request, response, callback} default Request and Response
  * @return {object} object if true, response message if false and continue
  */
 export default middleware.use(async (req, res, next) => {
-  let authHeader = req.headers.authorization || "";
+  let authHeader = req.headers.authorization || '';
   let user = {};
 
   if (!restricted.includes(req.url) && !authHeader) {
     return next();
   }
   if (authHeader) {
-    let sessionID = authHeader.split(" ")[1];
+    let sessionID = authHeader.split(' ')[1];
     if (sessionID) {
       user = verifyToken(sessionID);
       if (user) {
@@ -30,22 +30,22 @@ export default middleware.use(async (req, res, next) => {
       } else {
         res.statusCode = 401;
         return res.send({
-          status: "error",
-          error: "Expired",
+          status: 'error',
+          error: 'Expired',
         });
       }
     } else {
       res.statusCode = 401;
       return res.send({
-        status: "error",
-        error: "Wrong Token",
+        status: 'error',
+        error: 'Wrong Token',
       });
     }
   } else {
     res.statusCode = 401;
     return res.send({
-      status: "error",
-      error: "Unauthorized",
+      status: 'error',
+      error: 'Unauthorized',
     });
   }
   return next();

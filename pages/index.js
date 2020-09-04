@@ -1,13 +1,16 @@
-import Link from "next/link";
+import Link from 'next/link';
+
+/* utils */
+import { absoluteUrl } from '../middleware/utils';
 
 /* components */
-import Layout from "../components/layout/Layout";
-import UserNav from "../components/navigation/User";
+import Layout from '../components/layout/Layout';
+import UserNav from '../components/navigation/User';
 
 export default function Home(props) {
-  const { user } = props;
+  const { user, origin } = props;
   return (
-    <Layout title="Next.js with Sequelize | Home Page">
+    <Layout title="Next.js with Sequelize | Home Page" url={origin}>
       <div className="container">
         <main>
           <h1 className="title">
@@ -18,7 +21,7 @@ export default function Home(props) {
               src="/sequelize.svg"
               alt="Sequelize"
               height="120"
-              style={{ marginRight: "1rem" }}
+              style={{ marginRight: '1rem' }}
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
@@ -43,14 +46,14 @@ export default function Home(props) {
     </Layout>
   );
 }
-
+/* getServerSideProps */
 export async function getServerSideProps(context) {
-  const { query, req, res } = context;
+  const { req } = context;
+  const { origin } = absoluteUrl(req);
 
-  // Call an external API endpoint to get posts.
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
-    props: {},
+    props: {
+      origin,
+    },
   };
 }

@@ -13,7 +13,7 @@ function FormPost(props) {
       <div className="form-group">
         <h2>Form Post</h2>
         <hr />
-        {stateFormMessage.status === "error" && (
+        {stateFormMessage.status === 'error' && (
           <h4 className="warning text-center">{stateFormMessage.error}</h4>
         )}
       </div>
@@ -26,8 +26,8 @@ function FormPost(props) {
           name="title"
           placeholder="Post Title"
           onChange={onChange}
+          readOnly={loading && true}
           value={stateFormData.title.value}
-          readonly={loading && "readonly"}
         />
         {stateFormError.title && (
           <span className="warning">{stateFormError.title.hint}</span>
@@ -42,8 +42,8 @@ function FormPost(props) {
           name="content"
           placeholder="Post Content"
           onChange={onChange}
+          readOnly={loading && true}
           value={stateFormData.content.value}
-          readonly={loading && "readonly"}
         />
         {stateFormError.content && (
           <span className="warning">{stateFormError.content.hint}</span>
@@ -55,7 +55,7 @@ function FormPost(props) {
           className="btn btn-block btn-warning"
           disabled={loading}
         >
-          {!loading ? "Submit" : "Submitting..."}
+          {!loading ? 'Submit' : 'Submitting...'}
         </button>
       </div>
     </form>

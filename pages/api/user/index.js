@@ -1,6 +1,6 @@
-import nextConnect from "next-connect";
-const models = require("../../../db/models/index");
-import middleware from "../../../middleware/auth";
+import nextConnect from 'next-connect';
+const models = require('../../../db/models/index');
+import middleware from '../../../middleware/auth';
 
 const handler = nextConnect()
   // Middleware
@@ -17,16 +17,16 @@ const handler = nextConnect()
       include: [
         {
           model: models.posts,
-          as: "posts",
+          as: 'posts',
         },
         {
           model: models.jobs,
-          as: "jobs",
+          as: 'jobs',
         },
       ],
       order: [
         // Will escape title and validate DESC against a list of valid direction parameters
-        ["id", "DESC"],
+        ['id', 'DESC'],
       ],
       offset: nextPage ? +nextPage : 0,
       limit: 5,
@@ -34,7 +34,7 @@ const handler = nextConnect()
 
     res.statusCode = 200;
     res.json({
-      status: "success",
+      status: 'success',
       data: users.rows,
       total: users.count,
       nextPage: +nextPage + 5,
@@ -53,18 +53,18 @@ const handler = nextConnect()
       status: 1,
     });
     return res.status(200).json({
-      status: "success",
-      message: "done",
+      status: 'success',
+      message: 'done',
       data: newUser,
     });
   })
   // Put method
   .put(async (req, res) => {
-    res.end("method - put");
+    res.end('method - put');
   })
   // Patch method
   .patch(async (req, res) => {
-    throw new Error("Throws me around! Error can be caught and handled.");
+    throw new Error('Throws me around! Error can be caught and handled.');
   });
 
 export default handler;

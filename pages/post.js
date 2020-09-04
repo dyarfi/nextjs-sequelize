@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import Router from "next/router";
+import React from 'react';
 
-/* Middleware utils */
-import { getAppCookies } from "../middleware/utils";
+import Link from 'next/link';
+import Router, { useRouter } from 'next/router';
+
+/* utils */
+import { absoluteUrl, getAppCookies } from '../middleware/utils';
 
 /* components */
-import Layout from "../components/layout/Layout";
-import UserNav from "../components/navigation/User";
+import Layout from '../components/layout/Layout';
+import UserNav from '../components/navigation/User';
 
 function Post(props) {
-  const { user, posts } = props;
+  const router = useRouter();
+  const { origin, user, posts } = props;
 
   function renderPosts(posts) {
     return posts.data.map((post, j) => {
@@ -23,7 +25,7 @@ function Post(props) {
             </div>
             <div>
               <small>
-                Post by: {post.user.firstName || ""} {post.user.lastName || ""}
+                Post by: {post.user.firstName || ''} {post.user.lastName || ''}
               </small>
             </div>
             <p>{post.content}</p>
@@ -35,7 +37,7 @@ function Post(props) {
 
   async function loadMoreClick(e) {
     await Router.push({
-      pathname: "/post",
+      pathname: '/post',
       query: {
         nextPage: posts.nextPage ? posts.nextPage : 5,
       },
@@ -43,7 +45,10 @@ function Post(props) {
   }
 
   return (
-    <Layout title="Next.js with Sequelize | User Page">
+    <Layout
+      title="Next.js with Sequelize | Posts Page"
+      url={`${origin}${router.asPath}`}
+    >
       <div className="container">
         <main>
           <h1 className="title">
@@ -54,16 +59,16 @@ function Post(props) {
               src="/sequelize.svg"
               alt="Sequelize"
               height="120"
-              style={{ marginRight: "1rem" }}
+              style={{ marginRight: '1rem' }}
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
           <UserNav props={{ user: user }} />
           <h2>
-            {" "}
+            {' '}
             <Link
               href={{
-                pathname: "/",
+                pathname: '/',
               }}
             >
               <a>&larr; </a>
@@ -73,32 +78,32 @@ function Post(props) {
           <div className="grid">
             <small
               style={{
-                textAlign: "center",
-                marginTop: "0rem",
-                marginBottom: "1rem",
+                textAlign: 'center',
+                marginTop: '0rem',
+                marginBottom: '1rem',
               }}
             >
               <Link href="/post/add">
                 <a>+ Add Post</a>
               </Link>
             </small>
-            {posts.status === "success" ? (
+            {posts.status === 'success' ? (
               posts.data.length && renderPosts(posts)
             ) : (
               <h3
                 style={{
-                  textAlign: "center",
-                  marginTop: "0rem",
-                  marginBottom: "1rem",
-                  display: "inline-block",
-                  width: "100%",
+                  textAlign: 'center',
+                  marginTop: '0rem',
+                  marginBottom: '1rem',
+                  display: 'inline-block',
+                  width: '100%',
                 }}
               >
                 {posts.error}
               </h3>
             )}
 
-            {posts.status === "success" && (
+            {posts.status === 'success' && (
               <>
                 {posts.nextPage < posts.total &&
                 posts.data.length !== posts.total ? (
@@ -128,36 +133,32 @@ function Post(props) {
   );
 }
 
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
+/* getServerSideProps */
 export async function getServerSideProps(context) {
-  const host = process.env.NODE_ENV === "production" ? "https://" : "http://";
-  const { query, req, res } = context;
+  const { query, req } = context;
   const { nextPage } = query;
-  const token = getAppCookies(req).token || "";
+  const { origin } = absoluteUrl(req);
 
-  const referer = req.headers.referer || "";
+  const token = getAppCookies(req).token || '';
+  const referer = req.headers.referer || '';
 
-  const nextPageUrl = !isNaN(nextPage) ? `?nextPage=${nextPage}` : "";
-  const baseApiUrl = `${host}${req.headers.host}/api`;
+  const nextPageUrl = !isNaN(nextPage) ? `?nextPage=${nextPage}` : '';
+  const baseApiUrl = `${origin}/api`;
 
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
   const postsApi = await fetch(`${baseApiUrl}/post${nextPageUrl}`, {
     headers: {
-      authorization: token || "",
+      authorization: token || '',
     },
   });
+
   const posts = await postsApi.json();
 
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
     props: {
-      posts,
+      origin,
       referer,
       token,
+      posts,
     },
   };
 }

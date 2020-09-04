@@ -1,6 +1,6 @@
-import nextConnect from "next-connect";
-import middleware from "../../../middleware/auth";
-const models = require("../../../db/models/index");
+import nextConnect from 'next-connect';
+import middleware from '../../../middleware/auth';
+const models = require('../../../db/models/index');
 
 const handler = nextConnect()
   // Middleware
@@ -15,16 +15,16 @@ const handler = nextConnect()
       include: [
         {
           model: models.users,
-          as: "user",
+          as: 'user',
         },
       ],
       order: [
         // Will escape title and validate DESC against a list of valid direction parameters
-        ["createdAt", "ASC"],
+        ['createdAt', 'ASC'],
       ],
     });
     res.statusCode = 200;
-    return res.json({ status: "success", data: post });
+    return res.json({ status: 'success', data: post });
   })
   // Post method
   .post(async (req, res) => {
@@ -38,18 +38,18 @@ const handler = nextConnect()
       userId: user.id,
     });
     return res.status(200).json({
-      status: "success",
-      message: "done",
+      status: 'success',
+      message: 'done',
       data: newPost,
     });
   })
   // Put method
   .put(async (req, res) => {
-    // res.end("method - put");
+    res.end('method - put');
   })
   // Patch method
   .patch(async (req, res) => {
-    // throw new Error("Throws me around! Error can be caught and handled.");
+    throw new Error('Throws me around! Error can be caught and handled.');
   });
 
 export default handler;

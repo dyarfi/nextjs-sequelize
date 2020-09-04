@@ -1,5 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 function Error({ statusCode }) {
   return (
@@ -7,7 +7,7 @@ function Error({ statusCode }) {
       <h2 className="text-warning">
         {statusCode
           ? `An error ${statusCode} occurred on server`
-          : "An error occurred on client"}
+          : 'An error occurred on client'}
       </h2>
       <span className="small clearfix d-block text-center my-2">
         <Link href="/">

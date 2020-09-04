@@ -1,5 +1,6 @@
-import nextConnect from "next-connect";
-const models = require("../../../db/models/index");
+import nextConnect from 'next-connect';
+import middleware from '../../../middleware/auth';
+const models = require('../../../db/models/index');
 
 const handler = nextConnect()
   // Get method
@@ -14,15 +15,15 @@ const handler = nextConnect()
       include: [
         {
           model: models.users,
-          as: "user",
+          as: 'user',
         },
       ],
       attributes: {
-        exclude: ["userId"],
+        exclude: ['userId'],
       },
       order: [
         // Will escape title and validate DESC against a list of valid direction parameters
-        ["id", "DESC"],
+        ['id', 'DESC'],
       ],
       offset: nextPage ? +nextPage : 0,
       limit: 5,
@@ -30,7 +31,7 @@ const handler = nextConnect()
 
     res.statusCode = 200;
     res.json({
-      status: "success",
+      status: 'success',
       data: posts.rows,
       total: posts.count,
       nextPage: +nextPage + 5,

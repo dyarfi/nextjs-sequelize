@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, DataTypes) => {
   const posts = sequelize.define(
-    "posts",
+    'posts',
     {
       userId: DataTypes.INTEGER,
       title: DataTypes.STRING,
@@ -11,20 +11,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       hooks: {
-        beforeCreate: function (post, options) {
+        beforeCreate: function(post, options) {
           // Do stuff
           post.slug = post.title
             .toLowerCase()
-            .replace(/[^A-Za-z0-9 -]/g, "") // remove invalid chars
-            .replace(/\s+/g, "-") // collapse whitespace and replace by -
-            .replace(/-+/g, "-");
+            .replace(/[^A-Za-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by -
+            .replace(/-+/g, '-');
         },
       },
-    }
+    },
   );
-  posts.associate = function (models) {
+  posts.associate = function(models) {
     // associations can be defined here
-    posts.belongsTo(models.users, { as: "user" });
+    posts.belongsTo(models.users, { as: 'user' });
   };
   return posts;
 };

@@ -13,7 +13,7 @@ function FormLogin({ props }) {
       <div className="form-group">
         <h2>Login</h2>
         <hr />
-        {stateFormMessage.status === "error" && (
+        {stateFormMessage.status === 'error' && (
           <h4 className="warning text-center">{stateFormMessage.error}</h4>
         )}
       </div>
@@ -26,8 +26,8 @@ function FormLogin({ props }) {
           name="email"
           placeholder="Email"
           onChange={onChangeHandler}
+          readOnly={loading && true}
           value={stateFormData.email.value}
-          readonly={loading && "readonly"}
         />
         {stateFormError.email && (
           <span className="warning">{stateFormError.email.hint}</span>
@@ -42,8 +42,8 @@ function FormLogin({ props }) {
           name="password"
           placeholder="Password"
           onChange={onChangeHandler}
+          readOnly={loading && true}
           value={stateFormData.email.password}
-          readonly={loading && "readonly"}
         />
         {stateFormError.password && (
           <span className="warning">{stateFormError.password.hint}</span>
@@ -55,7 +55,7 @@ function FormLogin({ props }) {
           className="btn btn-block btn-warning"
           disabled={loading}
         >
-          {!loading ? "Login" : "Loading..."}
+          {!loading ? 'Login' : 'Loading...'}
         </button>
       </div>
     </form>
