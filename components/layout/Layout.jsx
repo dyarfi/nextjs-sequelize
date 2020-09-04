@@ -11,7 +11,8 @@ export default function Layout({
   keywords = 'Next.js, Sequelize, ORM, JWT, Json Web Tokens, Authentication, Application',
   type = 'website',
   url = '/',
-  image = './nextjs.svg',
+  image = '/nextjs.svg',
+  origin = '',
 }) {
   return (
     <div>
@@ -27,13 +28,13 @@ export default function Layout({
         <meta property="og:url" content={url} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
+        <meta property="og:image" content={`${origin}${image}`} />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={url} />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content={image} />
+        <meta property="twitter:image" content={`${origin}${image}`} />
 
         {/* <meta name="viewport" content="initial-scale=1.0, width=device-width" /> */}
         <meta

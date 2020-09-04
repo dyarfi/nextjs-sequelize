@@ -45,6 +45,7 @@ function User(props) {
     <Layout
       title="Next.js with Sequelize | User Page"
       url={`${origin}${router.asPath}`}
+      origin={origin}
     >
       <div className="container">
         <main>

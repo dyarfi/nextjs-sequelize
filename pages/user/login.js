@@ -206,6 +206,7 @@ function Login(props) {
     <Layout
       title="Next.js with Sequelize | Login page"
       url={`${origin}${router.asPath}`}
+      origin={origin}
     >
       <div className="container">
         <main className="content-detail">

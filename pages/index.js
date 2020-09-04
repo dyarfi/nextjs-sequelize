@@ -10,7 +10,11 @@ import UserNav from '../components/navigation/User';
 export default function Home(props) {
   const { user, origin } = props;
   return (
-    <Layout title="Next.js with Sequelize | Home Page" url={origin}>
+    <Layout
+      title="Next.js with Sequelize | Home Page"
+      url={origin}
+      origin={origin}
+    >
       <div className="container">
         <main>
           <h1 className="title">
