@@ -153,7 +153,7 @@ module.exports = {
 };
 ```
 
-#### sequelize database migration and seed commnand
+#### sequelize database migration and seed command
 
 `sequelize db:migrate`
 
@@ -169,7 +169,7 @@ module.exports = {
 
 `yarn dev`
 
-=============================================================================
+==================================================================================
 
 ### Demos [https://nextjs-sequelize.now.sh/](https://nextjs-sequelize.now.sh/)
 
