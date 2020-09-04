@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -7,10 +7,10 @@ import { absoluteUrl, getAppCookies } from '../../middleware/utils';
 
 /* components */
 import Layout from '../../components/layout/Layout';
-import FormPost from '../../components/form/FormPost';
+import FormJob from '../../components/form/FormJob';
 
 /* post schemas */
-const FORM_DATA_POST = {
+const FORM_DATA_JOB = {
   title: {
     value: '',
     label: 'Title',
@@ -33,16 +33,39 @@ const FORM_DATA_POST = {
       error: 'Please insert valid Content',
     },
   },
+  reportManager: {
+    value: '',
+    label: 'Content',
+    min: 6,
+    max: 1500,
+    required: true,
+    validator: {
+      regEx: /^[a-z\sA-Z0-9\W\w]+$/,
+      error: 'Please insert valid Report Manager',
+    },
+  },
+  dateLimit: {
+    value: '',
+    label: 'Date',
+    min: 6,
+    max: 24,
+    required: true,
+    validator: {
+      regEx: /^[a-z\sA-Z0-9\W\w]+$/,
+      error: 'Please insert valid Date limit',
+    },
+  },
 };
 
-function Post(props) {
+function Job(props) {
   const router = useRouter();
 
-  const { origin, post, token } = props;
-  const { baseApiUrl } = props;
+  const { origin, job, token } = props;
 
+  const { baseApiUrl } = props;
   const [loading, setLoading] = useState(false);
-  const [stateFormData, setStateFormData] = useState(FORM_DATA_POST);
+
+  const [stateFormData, setStateFormData] = useState(FORM_DATA_JOB);
   const [stateFormError, setStateFormError] = useState([]);
   const [stateFormMessage, setStateFormMessage] = useState({});
   const [stateFormValid, setStateFormValid] = useState(false);
@@ -52,10 +75,14 @@ function Post(props) {
 
     let data = { ...stateFormData };
 
-    /* email */
+    /* title */
     data = { ...data, title: data.title.value || '' };
     /* content */
     data = { ...data, content: data.content.value || '' };
+    /* reportManager */
+    data = { ...data, reportManager: data.reportManager.value || '' };
+    /* dateLimit */
+    data = { ...data, dateLimit: data.dateLimit.value || '' };
 
     /* validation handler */
     const isValid = validationHandler(stateFormData);
@@ -64,7 +91,7 @@ function Post(props) {
       // Call an external API endpoint to get posts.
       // You can use any data fetching library
       setLoading(!loading);
-      const postApi = await fetch(`${baseApiUrl}/post/[slug]`, {
+      const jobApi = await fetch(`${baseApiUrl}/job/[slug]`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -74,10 +101,15 @@ function Post(props) {
         body: JSON.stringify(data),
       });
 
-      let result = await postApi.json();
-      if (result.message && result.data && result.message === 'done') {
+      let result = await jobApi.json();
+      if (
+        result.status === 'success' &&
+        result.message &&
+        result.message === 'done' &&
+        result.data
+      ) {
         router.push({
-          pathname: result.data.slug ? `/post/${result.data.slug}` : '/post',
+          pathname: result.data.slug ? `/job/${result.data.slug}` : '/job',
         });
       } else {
         setStateFormMessage(result);
@@ -199,17 +231,17 @@ function Post(props) {
     return isValid;
   }
 
-  function renderPostForm() {
+  function renderJobForm() {
     return (
       <>
         <Link
           href={{
-            pathname: '/post',
+            pathname: '/job',
           }}
         >
           <a>&larr; Back</a>
         </Link>
-        <FormPost
+        <FormJob
           onSubmit={onSubmitHandler}
           onChange={onChangeHandler}
           loading={loading}
@@ -222,12 +254,12 @@ function Post(props) {
     );
   }
 
-  function renderPostList() {
-    return post.data ? (
+  function renderJobList() {
+    return (
       <div className="card">
         <Link
           href={{
-            pathname: '/post',
+            pathname: '/job',
           }}
         >
           <a>&larr; Back</a>
@@ -239,7 +271,7 @@ function Post(props) {
             marginTop: '.75rem',
           }}
         >
-          {post.data.title}
+          {job.data.title}
           <small
             style={{
               display: 'block',
@@ -247,29 +279,28 @@ function Post(props) {
               marginTop: '.75rem',
             }}
           >
-            Posted: {post.data.createdAt}
+            Posted: {job.data.createdAt}
           </small>
         </h2>
-        <p>{post.data.content}</p>
+        <p>{job.data.content}</p>
+        <p>Email: {job.data.emailTo}</p>
+        <p>Report to: {job.data.reportManager}</p>
+        <p>Limit :{job.data.dateLimit}</p>
         <hr />
-        By: {post.data.user.firstName || ''} {post.data.user.lastName || ''}
-      </div>
-    ) : (
-      <div className="container">
-        <div class="card">Data Not Found</div>
+        By: {job.data.user.firstName || ''} {job.data.user.lastName || ''}
       </div>
     );
   }
 
   return (
     <Layout
-      title={`Next.js with Sequelize | Post Page - ${post || post.data.title}`}
+      title={`Next.js with Sequelize | Job Page - ${job || job.data.title}`}
       url={`${origin}${router.asPath}`}
       origin={origin}
     >
       <div className="container">
         <main className="content-detail">
-          {router.asPath === '/post/add' ? renderPostForm() : renderPostList()}
+          {router.asPath === '/job/add' ? renderJobForm() : renderJobList()}
         </main>
       </div>
     </Layout>
@@ -284,17 +315,17 @@ export async function getServerSideProps(context) {
   const token = getAppCookies(req).token || '';
   const baseApiUrl = `${origin}/api`;
 
-  const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
-  const post = await postApi.json();
+  const jobApi = await fetch(`${baseApiUrl}/job/${query.slug}`);
+  const job = await jobApi.json();
 
   return {
     props: {
       origin,
       baseApiUrl,
-      post,
+      job,
       token,
     },
   };
 }
 
-export default Post;
+export default Job;

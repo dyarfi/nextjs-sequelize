@@ -1,90 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 /* utils */
-import { absoluteUrl, getAppCookies } from '../../middleware/utils';
+import { absoluteUrl } from '../../middleware/utils';
 
 /* components */
 import Layout from '../../components/layout/Layout';
-import FormPost from '../../components/form/FormPost';
+import FormRegister from '../../components/form/FormRegister';
 
-/* post schemas */
-const FORM_DATA_POST = {
-  title: {
+const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+/* register schemas */
+const FORM_DATA_REGISTER = {
+  username: {
     value: '',
-    label: 'Title',
+    label: 'Username',
     min: 10,
     max: 36,
     required: true,
     validator: {
       regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-      error: 'Please insert valid Title',
+      error: 'Username fill correctly',
     },
   },
-  content: {
+  email: {
     value: '',
-    label: 'Content',
+    label: 'Email',
+    min: 10,
+    max: 36,
+    required: true,
+    validator: {
+      regEx: emailRegEx,
+      error: 'Email fill correctly',
+    },
+  },
+  password: {
+    value: '',
+    label: 'Password',
     min: 6,
-    max: 1500,
+    max: 36,
     required: true,
     validator: {
       regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-      error: 'Please insert valid Content',
+      error: 'Password fill correctly',
     },
   },
 };
 
-function Post(props) {
+function Register(props) {
   const router = useRouter();
-
-  const { origin, post, token } = props;
-  const { baseApiUrl } = props;
-
+  const { origin, baseApiUrl } = props;
   const [loading, setLoading] = useState(false);
-  const [stateFormData, setStateFormData] = useState(FORM_DATA_POST);
+
+  const [stateFormData, setStateFormData] = useState(FORM_DATA_REGISTER);
   const [stateFormError, setStateFormError] = useState([]);
-  const [stateFormMessage, setStateFormMessage] = useState({});
   const [stateFormValid, setStateFormValid] = useState(false);
-
-  async function onSubmitHandler(e) {
-    e.preventDefault();
-
-    let data = { ...stateFormData };
-
-    /* email */
-    data = { ...data, title: data.title.value || '' };
-    /* content */
-    data = { ...data, content: data.content.value || '' };
-
-    /* validation handler */
-    const isValid = validationHandler(stateFormData);
-
-    if (isValid) {
-      // Call an external API endpoint to get posts.
-      // You can use any data fetching library
-      setLoading(!loading);
-      const postApi = await fetch(`${baseApiUrl}/post/[slug]`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          authorization: token || '',
-        },
-        body: JSON.stringify(data),
-      });
-
-      let result = await postApi.json();
-      if (result.message && result.data && result.message === 'done') {
-        router.push({
-          pathname: result.data.slug ? `/post/${result.data.slug}` : '/post',
-        });
-      } else {
-        setStateFormMessage(result);
-      }
-      setLoading(false);
-    }
-  }
+  const [stateFormMessage, setStateFormMessage] = useState({});
 
   function onChangeHandler(e) {
     const { name, value } = e.currentTarget;
@@ -99,6 +71,50 @@ function Post(props) {
 
     /* validation handler */
     validationHandler(stateFormData, e);
+  }
+
+  async function onSubmitHandler(e) {
+    e.preventDefault();
+
+    let data = { ...stateFormData };
+
+    /* validation handler */
+    const isValid = validationHandler(stateFormData);
+
+    if (isValid) {
+      /* username */
+      data = { ...data, username: data.username.value || '' };
+      /* email */
+      data = { ...data, email: data.email.value || '' };
+      /* password */
+      data = { ...data, password: data.password.value || '' };
+
+      /* validation handler */
+      const isValid = validationHandler(stateFormData);
+
+      if (isValid) {
+        // Call an external API endpoint to get posts.
+        // You can use any data fetching library
+        setLoading(!loading);
+        const loginApi = await fetch(`${baseApiUrl}/user`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }).catch(error => {
+          console.error('Error:', error);
+        });
+        let result = await loginApi.json();
+        if (result.status === 'success' && result.message === 'done') {
+          window.location.href = '/';
+        } else {
+          setStateFormMessage(result);
+        }
+        setLoading(false);
+      }
+    }
   }
 
   function validationHandler(states, e) {
@@ -121,7 +137,7 @@ function Post(props) {
         states[input].min > states[input].value.length
       ) {
         errors[input] = {
-          hint: `Field ${states[input].label} min ${states[input].min}`,
+          hint: `Min ${states[input].label} length ${states[input].min}`,
           isInvalid: true,
         };
         isValid = false;
@@ -131,7 +147,7 @@ function Post(props) {
         states[input].max < states[input].value.length
       ) {
         errors[input] = {
-          hint: `Field ${states[input].label} max ${states[input].max}`,
+          hint: `Min ${states[input].label} length ${states[input].max}`,
           isInvalid: true,
         };
         isValid = false;
@@ -166,14 +182,14 @@ function Post(props) {
           }
           if (field.value && field.min >= field.value.length) {
             errors[item[0]] = {
-              hint: `Field ${field.label} min ${field.min}`,
+              hint: `Min ${field.label} length ${field.min}`,
               isInvalid: true,
             };
             isValid = false;
           }
           if (field.value && field.max <= field.value.length) {
             errors[item[0]] = {
-              hint: `Field ${field.label} max ${field.max}`,
+              hint: `Min ${field.label} length ${field.max}`,
               isInvalid: true,
             };
             isValid = false;
@@ -199,77 +215,31 @@ function Post(props) {
     return isValid;
   }
 
-  function renderPostForm() {
-    return (
-      <>
-        <Link
-          href={{
-            pathname: '/post',
-          }}
-        >
-          <a>&larr; Back</a>
-        </Link>
-        <FormPost
-          onSubmit={onSubmitHandler}
-          onChange={onChangeHandler}
-          loading={loading}
-          stateFormData={stateFormData}
-          stateFormError={stateFormError}
-          stateFormValid={stateFormValid}
-          stateFormMessage={stateFormMessage}
-        />
-      </>
-    );
-  }
-
-  function renderPostList() {
-    return post.data ? (
-      <div className="card">
-        <Link
-          href={{
-            pathname: '/post',
-          }}
-        >
-          <a>&larr; Back</a>
-        </Link>
-        <h2
-          className="sub-title"
-          style={{
-            display: 'block',
-            marginTop: '.75rem',
-          }}
-        >
-          {post.data.title}
-          <small
-            style={{
-              display: 'block',
-              fontWeight: 'normal',
-              marginTop: '.75rem',
-            }}
-          >
-            Posted: {post.data.createdAt}
-          </small>
-        </h2>
-        <p>{post.data.content}</p>
-        <hr />
-        By: {post.data.user.firstName || ''} {post.data.user.lastName || ''}
-      </div>
-    ) : (
-      <div className="container">
-        <div class="card">Data Not Found</div>
-      </div>
-    );
-  }
-
   return (
     <Layout
-      title={`Next.js with Sequelize | Post Page - ${post || post.data.title}`}
+      title="Next.js with Sequelize | Register page"
       url={`${origin}${router.asPath}`}
       origin={origin}
     >
       <div className="container">
         <main className="content-detail">
-          {router.asPath === '/post/add' ? renderPostForm() : renderPostList()}
+          <Link
+            href={{
+              pathname: '/user',
+            }}
+          >
+            <a>&larr; Back</a>
+          </Link>
+          <FormRegister
+            props={{
+              onSubmitHandler,
+              onChangeHandler,
+              loading,
+              stateFormData,
+              stateFormError,
+              stateFormMessage,
+            }}
+          />
         </main>
       </div>
     </Layout>
@@ -278,23 +248,19 @@ function Post(props) {
 
 /* getServerSideProps */
 export async function getServerSideProps(context) {
-  const { query, req } = context;
+  const { req } = context;
   const { origin } = absoluteUrl(req);
 
-  const token = getAppCookies(req).token || '';
+  const referer = req.headers.referer || '';
   const baseApiUrl = `${origin}/api`;
-
-  const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
-  const post = await postApi.json();
 
   return {
     props: {
       origin,
       baseApiUrl,
-      post,
-      token,
+      referer,
     },
   };
 }
 
-export default Post;
+export default Register;

@@ -18,10 +18,10 @@ const User = ({ props }) => {
           <Link href={{ pathname: '/user/login' }}>
             <a>Login</a>
           </Link>
-          {/* or
-          <Link href={{ pathname: "/user/register" }}>
+          or
+          <Link href={{ pathname: '/user/register' }}>
             <a>Register</a>
-          </Link> */}
+          </Link>
         </>
       )}
     </p>
