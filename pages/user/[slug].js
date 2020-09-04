@@ -19,7 +19,7 @@ function User(props) {
     switch (router.asPath) {
       case '/user/logout':
         Cookies.remove('token');
-        Router.push({ pathname: '/', query: {} }, '/');
+        Router.push('/');
         break;
       case '/user/login':
         setTitlePage('Login');
