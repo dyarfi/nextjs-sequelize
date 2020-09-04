@@ -42,6 +42,10 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
 `npm i mysql2` or `yarn add mysql2`
 
+#### Install postgres driver
+
+`npm i pg pg-hstore` or `yarn add pg pg-hstore`
+
 #### package.json
 
 ```json
@@ -59,6 +63,7 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
+    "sqlite3": "^5.0.0",
     "next": "9.4.4",
     "next-connect": "^0.7.1",
     "nprogress": "^0.2.0",
