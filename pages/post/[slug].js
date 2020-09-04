@@ -263,7 +263,7 @@ function Post(props) {
 
   return (
     <Layout
-      title={`Next.js with Sequelize | Post Page - ${post.data.title}`}
+      title={`Next.js with Sequelize | Post Page - ${post || post.data.title}`}
       url={`${origin}${router.asPath}`}
       origin={origin}
     >
