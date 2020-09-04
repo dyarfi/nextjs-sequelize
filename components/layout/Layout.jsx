@@ -1,15 +1,17 @@
-import Head from "next/head";
+import Head from 'next/head';
 
 /* Components */
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
+import Header from '../header/Header';
+import Footer from '../footer/Footer';
 
 export default function Layout({
   children,
-  title = "Next.js with Sequelize | A boilerplate from dyarfi.github.io",
-  description = "Next.js with Sequelize | A boilerplate Next.js and Sequelize from dyarfi.github.io",
-  keywords = "Next.js, Sequelize, ORM, JWT, Json Web Tokens, Authentication, Application",
-  type = "website",
+  title = 'Next.js with Sequelize | A boilerplate from dyarfi.github.io',
+  description = 'Next.js with Sequelize | A boilerplate Next.js and Sequelize from dyarfi.github.io',
+  keywords = 'Next.js, Sequelize, ORM, JWT, Json Web Tokens, Authentication, Application',
+  type = 'website',
+  url = 'website',
+  image = './public/nextjs.svg',
 }) {
   return (
     <div>
@@ -20,9 +22,18 @@ export default function Layout({
         <meta name="robots" content="index, follow" />
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={url} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:type" content={type} />
+        <meta property="og:image" content={image} />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={image} />
+
         {/* <meta name="viewport" content="initial-scale=1.0, width=device-width" /> */}
         <meta
           name="viewport"
@@ -52,7 +63,7 @@ export default function Layout({
             sans-serif;
         }
         body {
-          font-family: "Poppins", sans-serif;
+          font-family: 'Poppins', sans-serif;
         }
         * {
           box-sizing: border-box;
@@ -134,13 +145,13 @@ export default function Layout({
         .home::before {
           top: 0rem;
           right: 0rem;
-          content: "";
+          content: '';
           position: absolute;
           width: 150px;
           height: 150px;
           opacity: 0.5;
           border-radius: 50%;
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC");
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC');
           background-position: top center;
           background-repeat: repeat;
           background-attachment: scroll;
@@ -148,7 +159,7 @@ export default function Layout({
         .home::after {
           top: 16rem;
           right: 1rem;
-          content: "";
+          content: '';
           position: absolute;
           transform: rotate(-20deg);
           width: 0;
@@ -166,7 +177,7 @@ export default function Layout({
           z-index: 0;
         }
         #__next::before {
-          content: "";
+          content: '';
           position: absolute;
           top: 120px;
           bottom: 0;
@@ -175,13 +186,13 @@ export default function Layout({
           transform: rotate(-50deg);
           height: 420px;
           opacity: 0.5;
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC");
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC');
           background-position: top center;
           background-repeat: repeat;
           background-attachment: scroll;
         }
         #__next:after {
-          content: "";
+          content: '';
           position: absolute;
           bottom: 100px;
           left: 20px;
@@ -190,7 +201,7 @@ export default function Layout({
           opacity: 0.5;
           z-index: -1;
           border-radius: 50%;
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC");
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC');
           background-position: top center;
           background-repeat: repeat;
           background-attachment: scroll;
@@ -224,7 +235,7 @@ export default function Layout({
           position: absolute;
           bottom: -5px;
           left: 0;
-          content: "";
+          content: '';
           height: 3px;
           width: 20%;
           background-color: #cdcdcd;
@@ -254,7 +265,7 @@ export default function Layout({
         }
 
         main::before {
-          content: "";
+          content: '';
           position: absolute;
           bottom: 6rem;
           right: 25rem;
@@ -266,7 +277,7 @@ export default function Layout({
           border: 4px solid #cdcdcd;
         }
         main::after {
-          content: "";
+          content: '';
           position: absolute;
           top: 1rem;
           right: 18rem;
@@ -291,7 +302,7 @@ export default function Layout({
         footer::before {
           bottom: 8rem;
           right: 2rem;
-          content: "";
+          content: '';
           position: absolute;
           transform: rotate(20deg);
           width: 0;
@@ -304,7 +315,7 @@ export default function Layout({
         }
 
         footer::after {
-          content: "";
+          content: '';
           position: absolute;
           // left: 0;
           // right: 0;
@@ -314,7 +325,7 @@ export default function Layout({
           height: 350px;
           transform: rotate(-50deg);
           opacity: 0.5;
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC");
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC');
           background-position: top center;
           background-repeat: repeat;
           background-attachment: scroll;
@@ -430,7 +441,7 @@ export default function Layout({
         }
 
         .card::after {
-          content: "";
+          content: '';
           position: absolute;
           bottom: -1.95rem;
           right: -1.95rem;
@@ -440,7 +451,7 @@ export default function Layout({
           transform: rotate(-40deg) scale(1);
           border-radius: 50%;
           opacity: 0.5;
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC");
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANklEQVQoU2NkIBIwEqmOgXyFU6dObQDZkp2dDaZhAMVEmCKYJLJi8hSCTCLKanwhQL6vcZkKAMbtEAuAaq67AAAAAElFTkSuQmCC');
           background-position: top center;
           background-repeat: repeat;
           background-attachment: scroll;
@@ -448,7 +459,7 @@ export default function Layout({
         }
 
         .card::before {
-          content: "";
+          content: '';
           position: absolute;
           top: 0rem;
           right: 0rem;

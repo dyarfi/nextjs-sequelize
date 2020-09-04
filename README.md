@@ -42,6 +42,10 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 
 `npm i mysql2` or `yarn add mysql2`
 
+#### Install postgres driver
+
+`npm i pg pg-hstore` or `yarn add pg pg-hstore`
+
 #### package.json
 
 ```json
@@ -59,6 +63,7 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
+    "sqlite3": "^5.0.0",
     "next": "9.4.4",
     "next-connect": "^0.7.1",
     "nprogress": "^0.2.0",
@@ -99,27 +104,27 @@ So did all of these were related? Absolutely yes! In a Full-stack Web Applicatio
 - ./seeders/xxxxxxxxxxx-users.js
 
 ```js
-"use strict";
+'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("Users", [
+    return queryInterface.bulkInsert('Users', [
       {
-        username: "johndoe1",
-        firstName: "John",
-        lastName: "Doe 1",
-        email: "example1@example.com",
+        username: 'johndoe1',
+        firstName: 'John',
+        lastName: 'Doe 1',
+        email: 'example1@example.com',
         password:
-          "$2y$10$mj1OMFvVmGAR4gEEXZGtA.R5wYWBZTis72hSXzpxEs.QoXT3ifKSq", // password
+          '$2y$10$mj1OMFvVmGAR4gEEXZGtA.R5wYWBZTis72hSXzpxEs.QoXT3ifKSq', // password
         status: 1,
-        gender: "f",
-        phoneNumber: "0239239249239",
+        gender: 'f',
+        phoneNumber: '0239239249239',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ]);
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Users", null, {});
+    return queryInterface.bulkDelete('Users', null, {});
   },
 };
 ```
@@ -127,15 +132,15 @@ module.exports = {
 - ./seeders/xxxxxxxxxxx-posts.js
 
 ```js
-"use strict";
+'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("Posts", [
+    return queryInterface.bulkInsert('Posts', [
       {
-        title: "Title post one",
-        slug: "title-post-one",
+        title: 'Title post one',
+        slug: 'title-post-one',
         userId: 1,
-        content: "Text content post one",
+        content: 'Text content post one',
         status: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -143,7 +148,7 @@ module.exports = {
     ]);
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Posts", null, {});
+    return queryInterface.bulkDelete('Posts', null, {});
   },
 };
 ```
