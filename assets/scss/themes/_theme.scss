@@ -1,0 +1,123 @@
+// Set unique-id ver
+$ver 			: unique_id();
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$grays: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$grays: map-merge(
+  (
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+    "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900
+  ),
+  $grays
+);
+
+// Primary color
+// $primary        : #2387f3 !default;
+// $blue:    #007bff !default;
+$blue:    #2387f3 !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #28a745 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+
+$colors: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$colors: map-merge(
+  (
+    "blue":       $blue,
+    "indigo":     $indigo,
+    "purple":     $purple,
+    "pink":       $pink,
+    "red":        $red,
+    "orange":     $orange,
+    "yellow":     $yellow,
+    "green":      $green,
+    "teal":       $teal,
+    "cyan":       $cyan,
+    "white":      $white,
+    "gray":       $gray-600,
+    "gray-dark":  $gray-800
+  ),
+  $colors
+);
+
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+$theme-colors: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$theme-colors: map-merge(
+  (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+  ),
+  $theme-colors
+);
+
+// Theme color
+$theme-color 	: #cc9900 !default; // #cc9900
+$theme			: $theme-color !default;
+
+// Background variables light
+$light-primary : lighten($primary, 25%);
+$light-success : lighten($success, 25%);
+$light-warning : lighten($warning, 25%);
+$light-danger : lighten($danger, 25%);
+$light-info : lighten($info, 25%);
+$light-dark : lighten($dark, 25%);
+$light-theme : lighten($theme, 25%);
+$light-secondary : lighten($secondary, 25%);
+
+// Background variables dark
+$dark-primary : darken($primary, 28%);
+$dark-success : darken($success, 28%);
+$dark-warning : darken($warning, 28%);
+$dark-danger : darken($danger, 28%);
+$dark-info : darken($info, 15%);
+$dark-secondary : darken($secondary, 15%);
+$dark-mute : darken($dark, 45%);
+$dark-theme : darken($theme, 32%);
+
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                $font-size-base * 1.25 !default;
+$font-size-sm:                $font-size-base * .875 !default;
+
+// Font sizes
+$font-size-xl:                ($font-size-base * 1.55) !default;
+$font-size-xs:                ($font-size-base * .475) !default;

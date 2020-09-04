@@ -1,0 +1,195 @@
+// Theme fonts
+@import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700,800,900&display=swap');
+
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-weight: 600;
+}
+// Set default link focus outline
+.btn:focus, .btn:active a:focus, button:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+.logo {
+    width:78px;
+}
+footer[class=footer-main] {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+    text-align: center;
+    background-color: aliceblue;
+    ul {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 16px;
+        margin: 0;
+        > li {
+            display: flex;
+            padding: 6px 8px;
+            > a {
+                color: #067df7;
+                text-decoration: none;
+                font-size: 13px;
+            }
+        }
+    }
+}
+.page {
+    &-error, &-single {
+        margin: 0;
+        min-height: 100vh;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+    }
+}
+.hero { 
+    &-start {    
+        width: 100%;
+        color: #333;
+        .title {
+            margin: 0;
+            width: 100%;
+            padding-top: 0px;
+            line-height: 1.15;
+            font-size: 48px;
+        }
+        .title,
+        .description {
+            text-align: center;
+        }
+        .card {
+            padding-top:1rem;
+            padding-bottom:1rem;
+            a {
+                text-decoration: none;
+            }
+        }
+        .btn-group {
+            button:not(.dropdown-toggle) {
+                margin-right: 0;
+            }
+        }
+        button, [role=group].btn-group {
+            margin-right: .5rem;
+        }
+    }
+}
+// .typography, .documentation { }
+.headline {
+    margin-top:1rem;
+    margin-bottom:1rem;
+    &-mm {
+        position:relative;
+        display:block;
+        &:after {
+            content:'';
+            position: relative;
+            // right:0;
+            // top:50%;
+            // bottom:50%;
+            height:1px;
+            border-bottom: 1px dashed lighten($text-muted, 30);
+            // background-color:lighten($text-muted, 30);
+            width:auto;
+            margin: 0 auto 0 0;
+            display:flex;
+            align-items: center;            
+        }
+    }
+}
+// Bootstrap overide / extend
+/* --- Navbar --- */
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+/* --- Width --- */
+.w-10 {
+    width: 10%;
+}
+.w-15 {
+    width: 15%;
+}
+/* --- Dropdown --- */
+.dropdown.show {
+    position: relative;
+    a.dropdown-toggle:after {
+        transform: rotate(90deg) scale(1.3) translate(1px,-2px);
+    }
+}
+.dropdown {
+    a.dropdown-toggle:after {
+        transform: rotate(0deg) scale(1) translate(0,0);
+        transition:transform .25s ease;
+    }
+}
+// .show > .dropdown-menu:not([x-placement]) {
+// 	visibility:visible;
+// 	opacity:1;
+// 	transition:.5s ease;
+// 	&:before {
+// 		display: inline-block;
+// 		position: absolute;
+// 		width: 0;
+// 		height: 0;
+// 		vertical-align: middle;
+// 		content: "";
+// 		top: -5px;
+// 		left: auto;
+// 		right: 20px;
+// 		color: $white;
+// 		border-bottom: .4em solid;
+// 		border-right: .4em solid transparent;
+// 		border-left: .4em solid transparent;
+//     }
+// }
+.dropdown-menu:not([x-placement]) {
+    &.show {
+        @extend %shadow-md;	
+    }	   
+}
+.dropdown-item {
+	padding-top:.35rem;
+	padding-bottom:.35rem;
+}
+.list-group-nav-left {
+    height: 100%;
+    .list-group-item {
+        background-color:transparent;
+        border:0;
+        text-decoration: none;
+        transition: transform .25s ease;
+        transform: translateX(0);
+        .dropdown-toggle {
+            text-decoration: none;
+        }
+        i {
+            margin-right: .25rem;
+            color: $dark;
+        }        
+        &.active {
+            background-color:$primary !important;
+            color:$white !important;
+            font-weight: $font-weight-bold;
+            i {
+                color:$white !important;
+            }
+        }
+        [toggler] {
+            ul li.active .nav-link {
+                background-color:$primary !important;
+                color:$white !important;
+                font-weight: $font-weight-bold;
+            }
+        }
+        // &:hover {
+        //     transform: translateX(4px);
+        // }
+    }    
+}
