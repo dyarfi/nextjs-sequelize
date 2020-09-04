@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import Link from 'next/link';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 /* utils */
 import { absoluteUrl } from '../../middleware/utils';
@@ -12,14 +12,14 @@ import Layout from '../../components/layout/Layout';
 
 function User(props) {
   const router = useRouter();
-  const { origin, referer, user } = props;
+  const { origin, user } = props;
   const [titlePage, setTitlePage] = useState('Profile');
 
   useEffect(() => {
     switch (router.asPath) {
       case '/user/logout':
         Cookies.remove('token');
-        Router.push('/');
+        router.push({ pathname: '/', query: {} }, '/');
         break;
       case '/user/login':
         setTitlePage('Login');
