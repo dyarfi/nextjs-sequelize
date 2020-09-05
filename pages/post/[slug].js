@@ -284,7 +284,9 @@ export async function getServerSideProps(context) {
   const token = getAppCookies(req).token || '';
   const baseApiUrl = `${origin}/api`;
 
-  const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
+  const postApi = await fetch(
+    `${baseApiUrl}/post/${query.slug !== 'add' && query.slug}`,
+  );
   const post = await postApi.json();
 
   return {
