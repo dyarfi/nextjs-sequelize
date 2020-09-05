@@ -26,7 +26,7 @@ export default function Layout({
 
         <meta
           property="twitter:image:src"
-          content={`${origin}${image}?v=${Math.random(3)}`}
+          content={`${origin}${image}?v=${Math.floor(Date.now() / 100)}`}
         />
         <meta property="twitter:card" content="summary" />
         <meta property="twitter:url" content={url} />
@@ -35,7 +35,7 @@ export default function Layout({
 
         <meta
           property="og:image"
-          content={`${origin}${image}?v=${Math.random(3)}`}
+          content={`${origin}${image}?v=${Math.floor(Date.now() / 100)}`}
         />
         <meta property="og:site_name" content={url} />
         <meta property="og:type" content={type} />
