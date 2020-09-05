@@ -132,11 +132,12 @@ export async function getServerSideProps(context) {
   const referer = req.headers.referer || '';
   const baseApiUrl = `${origin}/api`;
 
-  const userApi = await fetch(
-    `${baseApiUrl}/user/${query.slug !== 'login' ||
-      (query.slug !== 'logout' && query.slug)}`,
-  );
-  const user = await userApi.json();
+  let user = {};
+
+  if (query.slug !== 'logout') {
+    const userApi = await fetch(`${baseApiUrl}/user/${query.slug}`);
+    user = await userApi.json();
+  }
 
   return {
     props: {
