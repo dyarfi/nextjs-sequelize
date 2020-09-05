@@ -24,17 +24,24 @@ export default function Layout({
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
 
-        <meta property="og:type" content={type} />
-        <meta property="og:url" content={url} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={`${origin}${image}`} />
-
-        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:image:src"
+          content={`${origin}${image}?v=${Math.floor(Date.now() / 100)}`}
+        />
+        <meta property="twitter:card" content="summary" />
         <meta property="twitter:url" content={url} />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content={`${origin}${image}`} />
+
+        <meta
+          property="og:image"
+          content={`${origin}${image}?v=${Math.floor(Date.now() / 100)}`}
+        />
+        <meta property="og:site_name" content={url} />
+        <meta property="og:type" content={type} />
+        <meta property="og:title" content={title} />
+        <meta property="og:url" content={url} />
+        <meta property="og:description" content={description} />
 
         {/* <meta name="viewport" content="initial-scale=1.0, width=device-width" /> */}
         <meta
