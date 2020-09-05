@@ -315,10 +315,12 @@ export async function getServerSideProps(context) {
   const token = getAppCookies(req).token || '';
   const baseApiUrl = `${origin}/api`;
 
-  const jobApi = await fetch(
-    `${baseApiUrl}/job/${query.slug !== 'add' && query.slug}`,
-  );
-  const job = await jobApi.json();
+  let job = {};
+
+  if (query.slug !== 'add') {
+    const jobApi = await fetch(`${baseApiUrl}/job/${query.slug}`);
+    job = await jobApi.json();
+  }
 
   return {
     props: {

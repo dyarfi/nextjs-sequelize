@@ -284,10 +284,12 @@ export async function getServerSideProps(context) {
   const token = getAppCookies(req).token || '';
   const baseApiUrl = `${origin}/api`;
 
-  const postApi = await fetch(
-    `${baseApiUrl}/post/${query.slug !== 'add' && query.slug}`,
-  );
-  const post = await postApi.json();
+  let post = {};
+
+  if (query.slug !== 'add') {
+    const postApi = await fetch(`${baseApiUrl}/post/${query.slug}`);
+    post = await postApi.json();
+  }
 
   return {
     props: {
