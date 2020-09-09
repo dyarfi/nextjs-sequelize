@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 /* utils */
 import { absoluteUrl } from '../../middleware/utils';
@@ -12,14 +12,14 @@ import Layout from '../../components/layout/Layout';
 
 function User(props) {
   const router = useRouter();
-  const { origin, user } = props;
+  const { origin, referer, user } = props;
   const [titlePage, setTitlePage] = useState('Profile');
 
   useEffect(() => {
     switch (router.asPath) {
       case '/user/logout':
         Cookies.remove('token');
-        router.push({ pathname: '/', query: {} }, '/');
+        Router.push({ pathname: '/', query: {} }, '/');
         break;
       case '/user/login':
         setTitlePage('Login');
@@ -63,7 +63,7 @@ function User(props) {
                   Member since {user.data.createdAt}
                 </small>
               </h3>
-              {user.data.posts.length && (
+              {(user.data.posts.length > 0 && (
                 <div className="grid">
                   <h2>Latest Posts</h2>
                   {user.data.posts.map((post, m) => {
@@ -83,8 +83,8 @@ function User(props) {
                     );
                   })}
                 </div>
-              )}
-              {user.data.jobs.length && (
+              )) || <small style={{ color: '#999999' }}>No latest posts</small>}
+              {(user.data.jobs.length > 0 && (
                 <div className="grid">
                   <h2>Latest Jobs</h2>
                   {user.data.jobs.map((job, m) => {
@@ -115,6 +115,10 @@ function User(props) {
                     );
                   })}
                 </div>
+              )) || (
+                <small style={{ marginLeft: '.5rem', color: '#999999' }}>
+                  No latest jobs
+                </small>
               )}
             </>
           )}
