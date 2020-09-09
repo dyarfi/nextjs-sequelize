@@ -294,7 +294,8 @@ function Job(props) {
 
   return (
     <Layout
-      title={`Next.js with Sequelize | Job Page - ${job || job.data.title}`}
+      title={`Next.js with Sequelize | Job Page - ${job.data &&
+        job.data.title}`}
       url={`${origin}${router.asPath}`}
       origin={origin}
     >

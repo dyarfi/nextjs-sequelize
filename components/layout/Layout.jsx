@@ -28,7 +28,7 @@ export default function Layout({
           property="twitter:image:src"
           content={`${origin}${image}?v=${Math.floor(Date.now() / 100)}`}
         />
-        <meta property="twitter:card" content="summary" />
+        <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={url} />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
@@ -537,17 +537,21 @@ export default function Layout({
         @media (min-width: 1200px) {
         }
       `}</style>
-      <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=UA-123722350-3"
-      ></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `window.dataLayer = window.dataLayer || []; function gtag()
-        {dataLayer.push(arguments)}
-        gtag('js', new Date()); gtag('config', 'UA-123722350-3');`,
-        }}
-      />
+      {process.env.NODE_ENV !== 'development' && (
+        <>
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-123722350-3"
+          ></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || []; function gtag()
+          {dataLayer.push(arguments)}
+          gtag('js', new Date()); gtag('config', 'UA-123722350-3');`,
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
