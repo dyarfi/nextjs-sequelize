@@ -22,20 +22,22 @@ if (config.use_env_variable) {
     config,
   );
 }
-/* fs.readdirSync(__dirname) */
+
 fs.readdirSync(models)
-  .filter(file => {
+  .filter((file) => {
     return (
       file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
     );
   })
-  .forEach(file => {
-    /* const model = sequelize["import"](path.join(__dirname, file)); */
-    const model = sequelize['import'](path.join(models, file));
+  .forEach((file) => {
+    const model = require(__dirname + '/' + file)(
+      sequelize,
+      Sequelize.DataTypes,
+    );
     db[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
