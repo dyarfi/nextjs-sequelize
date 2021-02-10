@@ -5,7 +5,7 @@ module.exports = {
     },
   },
   env: {
-    api: process.env.PORT + 'api/',
+    api: `${process.env.PORT}api/`,
   },
   serverRuntimeConfig: {
     // Will only be available on the server side

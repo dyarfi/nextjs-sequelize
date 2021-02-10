@@ -12,7 +12,7 @@ function Error({ statusCode }) {
       <span className="small clearfix d-block text-center my-2">
         <Link href="/">
           <a className="text-light font-weight-bold">
-            <i className="fas fa-home"></i> Back to Home
+            <i className="fas fa-home" /> Back to Home
           </a>
         </Link>
       </span>

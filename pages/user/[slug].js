@@ -66,54 +66,50 @@ function User(props) {
               {(user.data.posts.length > 0 && (
                 <div className="grid">
                   <h2>Latest Posts</h2>
-                  {user.data.posts.map((post, m) => {
-                    return (
-                      <Link
-                        key={m}
-                        href={{
-                          pathname: `/post/${post.slug}`,
-                          query: {},
-                        }}
-                      >
-                        <a className="card">
-                          <h4>{post.title}</h4>
-                          <span>{post.createdAt}</span>
-                        </a>
-                      </Link>
-                    );
-                  })}
+                  {user.data.posts.map((post, m) => (
+                    <Link
+                      key={m}
+                      href={{
+                        pathname: `/post/${post.slug}`,
+                        query: {},
+                      }}
+                    >
+                      <a className="card">
+                        <h4>{post.title}</h4>
+                        <span>{post.createdAt}</span>
+                      </a>
+                    </Link>
+                  ))}
                 </div>
               )) || <small style={{ color: '#999999' }}>No latest posts</small>}
               {(user.data.jobs.length > 0 && (
                 <div className="grid">
                   <h2>Latest Jobs</h2>
-                  {user.data.jobs.map((job, m) => {
-                    return (
-                      <Link
-                        key={m}
-                        href={{
-                          pathname: `/job/${job.slug}`,
-                          query: {},
-                        }}
-                      >
-                        <a className="card">
-                          <h4>{job.title}</h4>
-                          <span>
-                            <small>{job.content}</small>
-                          </span>
-                          <span>
-                            <small>{job.reportManager}</small>
-                          </span>
-                          <span>
-                            <small>{job.emailTo}</small>
-                          </span>
-                          <span>
-                            <span>{job.createdAt}</span>
-                          </span>
-                        </a>
-                      </Link>
-                    );
-                  })}
+                  {user.data.jobs.map((job, m) => (
+                    <Link
+                      key={m}
+                      href={{
+                        pathname: `/job/${job.slug}`,
+                        query: {},
+                      }}
+                    >
+                      <a className="card">
+                        <h4>{job.title}</h4>
+                        <span>
+                          <small>{job.content}</small>
+                        </span>
+                        <span>
+                          <small>{job.reportManager}</small>
+                        </span>
+                        <span>
+                          <small>{job.emailTo}</small>
+                        </span>
+                        <span>
+                          <span>{job.createdAt}</span>
+                        </span>
+                      </a>
+                    </Link>
+                  ))}
                 </div>
               )) || (
                 <small style={{ marginLeft: '.5rem', color: '#999999' }}>

@@ -29,7 +29,7 @@ export default function Home(props) {
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
-          <UserNav props={{ user: user }} />
+          <UserNav props={{ user }} />
           <div className="grid">
             <Link href="/user">
               <a className="card">

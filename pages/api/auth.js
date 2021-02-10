@@ -19,7 +19,7 @@ const handler = nextConnect()
     }
     /* Check user in database */
     const user = await models.users.findOne({
-      where: { email: email },
+      where: { email },
       attributes: ['id', 'email', 'password'],
       limit: 1,
     });
@@ -53,7 +53,7 @@ const handler = nextConnect()
           (err, token) => {
             res.status(200).json({
               success: true,
-              token: 'Bearer ' + token,
+              token: `Bearer ${token}`,
             });
           },
         );

@@ -91,7 +91,7 @@ function Login(props) {
       }).catch((error) => {
         console.error('Error:', error);
       });
-      let result = await loginApi.json();
+      const result = await loginApi.json();
       if (result.success && result.token) {
         Cookies.set('token', result.token);
         // window.location.href = referer ? referer : "/";

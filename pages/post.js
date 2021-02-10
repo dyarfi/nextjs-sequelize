@@ -15,24 +15,22 @@ function Post(props) {
   const { origin, user, posts } = props;
 
   function renderPosts(posts) {
-    return posts.data.map((post, j) => {
-      return (
-        <Link key={j} href="/post/[slug]" as={`/post/${post.slug}`}>
-          <a className="card">
-            <h3 className="headline">{post.title}</h3>
-            <div>
-              <small>{post.createdAt}</small>
-            </div>
-            <div>
-              <small>
-                Post by: {post.user.firstName || ''} {post.user.lastName || ''}
-              </small>
-            </div>
-            <p>{post.content}</p>
-          </a>
-        </Link>
-      );
-    });
+    return posts.data.map((post, j) => (
+      <Link key={j} href="/post/[slug]" as={`/post/${post.slug}`}>
+        <a className="card">
+          <h3 className="headline">{post.title}</h3>
+          <div>
+            <small>{post.createdAt}</small>
+          </div>
+          <div>
+            <small>
+              Post by: {post.user.firstName || ''} {post.user.lastName || ''}
+            </small>
+          </div>
+          <p>{post.content}</p>
+        </a>
+      </Link>
+    ));
   }
 
   async function loadMoreClick(e) {
@@ -64,7 +62,7 @@ function Post(props) {
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
-          <UserNav props={{ user: user }} />
+          <UserNav props={{ user }} />
           <h2>
             {' '}
             <Link
