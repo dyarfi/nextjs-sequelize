@@ -1,4 +1,11 @@
 'use strict';
+const dotenv = require('dotenv');
+const path = require('path');
+
+dotenv.config({
+  path: path.resolve(process.cwd(), '.env.local'),
+});
+
 module.exports = {
   development: {
     username: process.env.DB_USER,
