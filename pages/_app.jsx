@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Router from 'next/router';
-import { getAppCookies, verifyToken } from '../middleware/utils';
 import NProgress from 'nprogress';
+import { getAppCookies, verifyToken } from '../middleware/utils';
 
 NProgress.configure({ showSpinner: false });
 Router.events.on('routeChangeStart', (url) => {
@@ -23,13 +23,7 @@ function MyApp({ Component, pageProps }) {
 }
 
 MyApp.getInitialProps = async ({ Component, ctx }) => {
-  const {
-    store,
-    isServer,
-    req,
-    query: { amp },
-    asPath,
-  } = ctx;
+  const { req, asPath } = ctx;
 
   const { token } = getAppCookies(req);
   const user = token && verifyToken(token.replace('Bearer ', ''));
