@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint-eslint": "eslint . --ext js,jsx,ts,tsx --max-warnings=0",
+    "lint-fix": "yarn prettier-fix && eslint . --ext js,jsx,ts,tsx --fix --max-warnings=0",
+    "prettier-check": "prettier --check .",
+    "prettier-fix": "prettier --write ."
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
