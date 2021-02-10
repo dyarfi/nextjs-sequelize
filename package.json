@@ -32,7 +32,10 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-react": "^7.12.13",
-    "@types/react": "17.0.1",
+    "@types/node": "^14.14.20",
+    "@types/react": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "4.14.2",
+    "@typescript-eslint/parser": "4.14.2",
     "babel-eslint": "^10.0.2",
     "eslint": "^7.19.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -41,6 +44,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "2.3.0",
     "prettier": "^2.2.1",
     "typescript": "4.1.4"
   }
