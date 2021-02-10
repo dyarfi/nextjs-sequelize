@@ -12,7 +12,7 @@ module.exports = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'sqlite',
+    dialect: 'mysql',
   },
   test: {
     username: process.env.DB_USER,
