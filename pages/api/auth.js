@@ -28,10 +28,12 @@ const handler = nextConnect()
       res.status(400).json({ status: 'error', error: 'User Not Found' });
     }
     /* Define variables */
-    const dataUser = user.toJSON();
-    const userId = dataUser.id,
-      userEmail = dataUser.email,
-      userPassword = dataUser.password;
+    const {
+      id: userId,
+      email: userEmail,
+      password: userPassword,
+    } = user.toJSON();
+
     /* Check and compare password */
     bcrypt.compare(password, userPassword).then(isMatch => {
       if (isMatch) {
