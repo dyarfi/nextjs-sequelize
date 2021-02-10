@@ -28,7 +28,7 @@ function User(props) {
         setTitlePage('Register');
         break;
     }
-  }, []);
+  }, [router.asPath]);
 
   return (
     <Layout
