@@ -88,7 +88,7 @@ function Login(props) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      }).catch(error => {
+      }).catch((error) => {
         console.error('Error:', error);
       });
       let result = await loginApi.json();
@@ -155,8 +155,8 @@ function Login(props) {
         }
       }
     } else {
-      Object.entries(states).forEach(item => {
-        item.forEach(field => {
+      Object.entries(states).forEach((item) => {
+        item.forEach((field) => {
           errors[item[0]] = '';
           if (field.required) {
             if (!field.value) {

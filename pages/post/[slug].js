@@ -152,8 +152,8 @@ function Post(props) {
         }
       }
     } else {
-      Object.entries(states).forEach(item => {
-        item.forEach(field => {
+      Object.entries(states).forEach((item) => {
+        item.forEach((field) => {
           errors[item[0]] = '';
           if (field.required) {
             if (!field.value) {
@@ -263,8 +263,9 @@ function Post(props) {
 
   return (
     <Layout
-      title={`Next.js with Sequelize | Post Page - ${post.data &&
-        post.data.title}`}
+      title={`Next.js with Sequelize | Post Page - ${
+        post.data && post.data.title
+      }`}
       url={`${origin}${router.asPath}`}
       origin={origin}
     >

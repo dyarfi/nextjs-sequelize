@@ -4,7 +4,7 @@ import { getAppCookies, verifyToken } from '../middleware/utils';
 import NProgress from 'nprogress';
 
 NProgress.configure({ showSpinner: false });
-Router.events.on('routeChangeStart', url => {
+Router.events.on('routeChangeStart', (url) => {
   NProgress.start();
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());

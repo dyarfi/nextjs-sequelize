@@ -35,7 +35,7 @@ const handler = nextConnect()
     } = user.toJSON();
 
     /* Check and compare password */
-    bcrypt.compare(password, userPassword).then(isMatch => {
+    bcrypt.compare(password, userPassword).then((isMatch) => {
       if (isMatch) {
         /* User matched */
         /* Create JWT Payload */
