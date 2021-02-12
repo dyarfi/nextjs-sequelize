@@ -1,5 +1,5 @@
 node_modules
-db
 **/.next/**
 **/_next/**
 **/dist/**
+**/assets/**

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('users', [
+    return queryInterface.bulkInsert('posts', [
       {
         userId: 1,
         title: 'Title post one',

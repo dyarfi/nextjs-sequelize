@@ -14,14 +14,14 @@ const restricted = ['/api/post/[slug]', '/api/job/[slug]'];
  * @return {object} object if true, response message if false and continue
  */
 export default middleware.use(async (req, res, next) => {
-  let authHeader = req.headers.authorization || '';
+  const authHeader = req.headers.authorization || '';
   let user = {};
 
   if (!restricted.includes(req.url) && !authHeader) {
     return next();
   }
   if (authHeader) {
-    let sessionID = authHeader.split(' ')[1];
+    const sessionID = authHeader.split(' ')[1];
     if (sessionID) {
       user = verifyToken(sessionID);
       if (user) {

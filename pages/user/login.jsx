@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -88,10 +88,10 @@ function Login(props) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      }).catch(error => {
+      }).catch((error) => {
         console.error('Error:', error);
       });
-      let result = await loginApi.json();
+      const result = await loginApi.json();
       if (result.success && result.token) {
         Cookies.set('token', result.token);
         // window.location.href = referer ? referer : "/";
@@ -155,8 +155,8 @@ function Login(props) {
         }
       }
     } else {
-      Object.entries(states).forEach(item => {
-        item.forEach(field => {
+      Object.entries(states).forEach((item) => {
+        item.forEach((field) => {
           errors[item[0]] = '';
           if (field.required) {
             if (!field.value) {

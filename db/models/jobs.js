@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       hooks: {
-        beforeCreate: function(job, options) {
+        beforeCreate: function (job, options) {
           // Do stuff
           job.slug = job.title
             .toLowerCase()
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   );
-  jobs.associate = function(models) {
+  jobs.associate = function (models) {
     // associations can be defined here
     jobs.belongsTo(models.users, { as: 'user' });
   };

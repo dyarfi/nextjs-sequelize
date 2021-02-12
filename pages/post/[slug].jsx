@@ -74,7 +74,7 @@ function Post(props) {
         body: JSON.stringify(data),
       });
 
-      let result = await postApi.json();
+      const result = await postApi.json();
       if (result.message && result.data && result.message === 'done') {
         router.push({
           pathname: result.data.slug ? `/post/${result.data.slug}` : '/post',
@@ -152,8 +152,8 @@ function Post(props) {
         }
       }
     } else {
-      Object.entries(states).forEach(item => {
-        item.forEach(field => {
+      Object.entries(states).forEach((item) => {
+        item.forEach((field) => {
           errors[item[0]] = '';
           if (field.required) {
             if (!field.value) {
@@ -256,15 +256,16 @@ function Post(props) {
       </div>
     ) : (
       <div className="container">
-        <div class="card">Data Not Found</div>
+        <div className="card">Data Not Found</div>
       </div>
     );
   }
 
   return (
     <Layout
-      title={`Next.js with Sequelize | Post Page - ${post.data &&
-        post.data.title}`}
+      title={`Next.js with Sequelize | Post Page - ${
+        post.data && post.data.title
+      }`}
       url={`${origin}${router.asPath}`}
       origin={origin}
     >

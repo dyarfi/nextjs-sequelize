@@ -1,6 +1,7 @@
 import nextConnect from 'next-connect';
-const models = require('../../../db/models/index');
 import middleware from '../../../middleware/auth';
+
+const models = require('../../../db/models/index');
 
 const handler = nextConnect()
   // Middleware

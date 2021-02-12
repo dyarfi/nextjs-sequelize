@@ -15,21 +15,19 @@ function User(props) {
   const { origin, user, users } = props;
 
   function renderUsers(users) {
-    return users.data.map((user, i) => {
-      return (
-        <Link key={i} href="/user/[slug]" as={`/user/${user.id}`}>
-          <a className="card">
-            <h3 className="headline">
-              {/* {user.firstName} {user.lastName} */}
-              {user.username}
-            </h3>
-            <p>{user.email}</p>
-            <small>Posts: {user.posts.length}</small>{' '}
-            <small>Jobs: {user.jobs.length}</small>
-          </a>
-        </Link>
-      );
-    });
+    return users.data.map((user, i) => (
+      <Link key={i} href="/user/[slug]" as={`/user/${user.id}`}>
+        <a className="card">
+          <h3 className="headline">
+            {/* {user.firstName} {user.lastName} */}
+            {user.username}
+          </h3>
+          <p>{user.email}</p>
+          <small>Posts: {user.posts.length}</small>{' '}
+          <small>Jobs: {user.jobs.length}</small>
+        </a>
+      </Link>
+    ));
   }
 
   async function loadMoreClick(e) {
@@ -61,7 +59,7 @@ function User(props) {
             />
             <img src="/nextjs.svg" alt="Next.js" width="160" />
           </p>
-          <UserNav props={{ user: user }} />
+          <UserNav props={{ user }} />
           <h2>
             <Link
               href={{

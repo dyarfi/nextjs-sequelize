@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       hooks: {
-        beforeCreate: function(post, options) {
+        beforeCreate: function (post, options) {
           // Do stuff
           post.slug = post.title
             .toLowerCase()
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   );
-  posts.associate = function(models) {
+  posts.associate = function (models) {
     // associations can be defined here
     posts.belongsTo(models.users, { as: 'user' });
   };

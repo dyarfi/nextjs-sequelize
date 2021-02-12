@@ -1,5 +1,6 @@
 import nextConnect from 'next-connect';
 import middleware from '../../../middleware/auth';
+
 const models = require('../../../db/models/index');
 
 const handler = nextConnect()
@@ -10,7 +11,7 @@ const handler = nextConnect()
     const { slug } = req.query;
     const post = await models.posts.findOne({
       where: {
-        slug: slug,
+        slug,
       },
       include: [
         {
