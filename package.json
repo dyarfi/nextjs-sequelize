@@ -20,7 +20,7 @@
     "postcss-preset-env": "^6.7.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "sequelize": "^5.21.11",
+    "sequelize": "^6.29.0",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
